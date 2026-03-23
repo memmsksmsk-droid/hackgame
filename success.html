@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán thành công - TRẦN BÁCH</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        
+        /* Nền không gian mạng Cyber */
+        body { 
+            min-height: 100vh; 
+            background-color: #020406;
+            background-image: 
+                linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            color: white; 
+            font-family: 'Rajdhani', sans-serif;
+            overflow: hidden; 
+        }
+        
+        canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        
+        /* Thẻ hóa đơn (Bill Card) */
+        .bill-card { 
+            width: 480px; 
+            background: rgba(2, 5, 10, 0.95);
+            padding: 40px 30px; 
+            border: 2px solid #00f2ff;
+            text-align: center; 
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.2), inset 0 0 20px rgba(0, 242, 255, 0.1); 
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%); /* Cắt góc chuẩn Cyber */
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Icon Thành Công rực rỡ */
+        .icon-success { 
+            font-size: 65px; 
+            color: #00ff88; /* Màu xanh lá Neon */
+            margin-bottom: 15px; 
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); text-shadow: 0 0 20px rgba(0, 255, 136, 0.6); }
+            50% { transform: scale(1.1); text-shadow: 0 0 40px rgba(0, 255, 136, 1); }
+            100% { transform: scale(1); text-shadow: 0 0 20px rgba(0, 255, 136, 0.6); }
+        }
+
+        h2 { 
+            margin-bottom: 25px; 
+            color: #00f2ff; 
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
+            font-size: 24px;
+        }
+
+        /* Khung chứa chi tiết đơn hàng */
+        .bill-details { 
+            text-align: left; 
+            background: rgba(0, 242, 255, 0.05); 
+            padding: 20px; 
+            margin-bottom: 30px; 
+            line-height: 2.5; 
+            border-left: 3px solid #ff00c8;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        .line { 
+            display: flex; 
+            justify-content: space-between; 
+            border-bottom: 1px dashed rgba(0, 242, 255, 0.3); /* Đường gạch đứt màu xanh ngọc */
+        }
+        
+        .cyber-label { color: #a0faff; font-family: 'Orbitron', sans-serif; font-size: 13px; }
+        .cyber-value { color: #fff; font-weight: bold; }
+
+        /* Nút quay về trang chủ */
+        .btn-home { 
+            display: inline-block; 
+            width: 100%; 
+            padding: 15px; 
+            background: transparent; 
+            color: #00f2ff; 
+            border: 1px solid #00f2ff;
+            text-decoration: none; 
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold; 
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s; 
+            clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
+        }
+        
+        .btn-home:hover { 
+            background: #00f2ff;
+            color: #000;
+            box-shadow: 0 0 25px #00f2ff; 
+            transform: scale(1.02); 
+        }
+
+        /* Lưới điện viền */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            z-index: 9999;
+            background: #00ff88;
+            box-shadow: 0 0 15px #00ff88;
+        }
+        body::before { left: 0; }
+        body::after { right: 0; }
+    </style>
+</head>
+<body>
+
+<canvas id="rain"></canvas>
+
+<div class="bill-card">
+    <div class="icon-success"><i class="fas fa-check-circle"></i></div>
+    <h2>ĐÃ GỬI YÊU CẦU!</h2>
+    <div class="bill-details" id="billContent">
+        </div>
+    <a href="home.html" class="btn-home">QUAY VỀ TRANG CHỦ</a>
+</div>
+
+<script>
+    // --- PHẦN LOGIC ĐƯỢC GIỮ NGUYÊN 100% ---
+    const product = JSON.parse(localStorage.getItem("currentProduct"));
+    const billContent = document.getElementById("billContent");
+
+    if(product) {
+        // 1. Hiển thị lên màn hình (Cập nhật class HTML để ăn theo CSS mới)
+        billContent.innerHTML = `
+            <div class="line"><span class="cyber-label">SẢN PHẨM:</span> <b class="cyber-value">${product.name}</b></div>
+            <div class="line"><span class="cyber-label">NGƯỜI CHUYỂN:</span> <b class="cyber-value">${product.payerName}</b></div>
+            <div class="line"><span class="cyber-label">SỐ TIỀN:</span> <b style="color:#ff00c8; text-shadow: 0 0 10px rgba(255,0,200,0.5);">${product.price}</b></div>
+            <div class="line"><span class="cyber-label">THỜI GIAN:</span> <b class="cyber-value">${product.date}</b></div>
+            <div class="line"><span class="cyber-label">TRẠNG THÁI:</span> <b style="color:#00ff88; text-shadow: 0 0 10px rgba(0,255,136,0.5);">ĐANG CHỜ DUYỆT...</b></div>
+        `;
+
+        // 2. Lưu đơn hàng vào danh sách chung cho Admin (orders)
+        let orders = JSON.parse(localStorage.getItem("orders")) || [];
+        
+        // Tạo đơn hàng mới để Admin đọc
+        const newOrder = {
+            id: Date.now(), // Tạo ID ngẫu nhiên bằng thời gian
+            product: product.name,
+            client: product.payerName,
+            bank: product.bankName,
+            total: product.price,
+            date: product.date,
+            status: "Chờ duyệt"
+        };
+
+        // Đẩy đơn vào mảng và lưu lại
+        orders.push(newOrder);
+        localStorage.setItem("orders", JSON.stringify(orders));
+        
+        // Xóa sản phẩm tạm sau khi đã đặt xong để tránh trùng
+        localStorage.removeItem("currentProduct");
+    } else {
+        billContent.innerHTML = "<p style='color:#ff0055; font-family: Orbitron; text-align:center;'>⚠️ LỖI: KHÔNG TÌM THẤY DỮ LIỆU ĐƠN HÀNG.</p>";
+    }
+
+    /* Hiệu ứng mưa (Chỉ đổi thành màu xanh ngọc Cyber) */
+    const canvas = document.getElementById("rain");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    let drops=[];
+    for(let i=0;i<150;i++){ drops.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,l:15,s:5}); }
+    function rain(){
+        ctx.clearRect(0,0,canvas.width,canvas.height); 
+        ctx.strokeStyle="rgba(0, 255, 136, 0.4)"; /* Màu xanh lá ma trận */
+        drops.forEach(d=>{ ctx.beginPath(); ctx.moveTo(d.x,d.y); ctx.lineTo(d.x-2,d.y+d.l); ctx.stroke(); d.y+=d.s; if(d.y>canvas.height)d.y=0; });
+        requestAnimationFrame(rain);
+    }
+    rain();
+</script>
+</body>
+</html>

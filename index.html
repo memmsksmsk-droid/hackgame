@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>ĐĂNG NHẬP CYBER | TRẦN BÁCH 2026</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           PHẦN THÊM MỚI: THÔNG BÁO Ở TRÊN (TOAST)
+           ========================================= */
+        .cyber-toast {
+            position: fixed;
+            top: -100px; /* Ẩn đi ban đầu */
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 242, 255, 0.1);
+            border: 1px solid #00f2ff;
+            color: #00f2ff;
+            padding: 15px 30px;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4), inset 0 0 10px rgba(0, 242, 255, 0.2);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cyber-toast.active {
+            top: 20px; /* Hiện ra */
+        }
+        .cyber-toast i {
+            font-size: 20px;
+        }
+
+        /* =========================================
+           GIỮ NGUYÊN TOÀN BỘ CSS CŨ CỦA BẠN
+           ========================================= */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            z-index: 99999;
+            pointer-events: none;
+            background: #00f2ff;
+            box-shadow: 0 0 10px #00f2ff, 0 0 20px #00f2ff;
+            animation: electric_login 0.15s infinite alternate;
+        }
+        body::before { left: 0; }
+        body::after { right: 0; }
+
+        @keyframes electric_login {
+            0% { opacity: 0.8; transform: scaleX(1) translateY(0); }
+            100% { opacity: 1; transform: scaleX(1.5) translateY(2px); filter: hue-rotate(10deg); }
+        }
+
+        :root {
+            --p: #00f2ff;
+            --s: #ff00c8;
+            --bg: #020406;
+            --f-main: 'Rajdhani', sans-serif;
+            --f-cyber: 'Orbitron', sans-serif;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; font-family: var(--f-main); }
+
+        body {
+            min-height: 100vh;
+            background-color: var(--bg);
+            background-image: 
+                linear-gradient(rgba(0, 242, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+            padding-top: 60px;
+            overflow: hidden;
+        }
+        
+        body::after {
+            content:''; position:fixed; inset:0; z-index:-1;
+            background: radial-gradient(circle at 50% 50%, rgba(112, 0, 255, 0.15), transparent 60%);
+        }
+
+        .top-banner {
+            position: fixed; top: 0; left: 0; width: 100%; height: 50px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex; align-items: center; overflow: hidden;
+            z-index: 40;
+            border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+        }
+
+        .banner-text {
+            position: absolute; white-space: nowrap;
+            font-weight: 700; font-size: 16px; font-family: var(--f-cyber);
+            animation: scrollText_cyber 20s linear infinite;
+            color: var(--p);
+            text-shadow: 0 0 10px var(--p);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        @keyframes scrollText_cyber {
+            0% { left: 100%; }
+            100% { left: -120%; }
+        }
+
+        .container-auth {
+            position: relative; z-index: 5;
+            width: 100%; display: flex; justify-content: center; padding: 20px;
+        }
+
+        .auth-box {
+            width: 100%; max-width: 420px; padding: 40px;
+            border-radius: 4px;
+            background: rgba(6, 11, 19, 0.9);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+            border: 1px solid var(--p);
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 92%, 92% 100%, 0 100%);
+        }
+        
+        .auth-box::after {
+            content: " ";
+            display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
+            background-size: 100% 4px; z-index: -1; pointer-events: none; opacity: 0.5;
+        }
+
+        .auth-box::before {
+            content:''; position:absolute; top:-1px; left:30px; width:50px; height:3px;
+            background: var(--p); box-shadow: 0 0 10px var(--p);
+        }
+
+        #title {
+            font-family: var(--f-cyber); text-transform: uppercase;
+            letter-spacing: 2px; color: #fff; font-weight: 900;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+            font-size: 20px;
+            margin-bottom: 25px !important;
+        }
+
+        .cyber-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            color: rgba(255, 255, 255, 0.6);
+            font-family: var(--f-cyber);
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .tab-btn:hover {
+            border-color: var(--p);
+            color: var(--p);
+            box-shadow: inset 0 0 10px rgba(0, 242, 255, 0.2);
+        }
+
+        .tab-btn.active {
+            background: var(--p);
+            color: #000;
+            border-color: var(--p);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
+            text-shadow: none;
+        }
+
+        .form-control {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            border-radius: 0;
+            color: var(--p);
+            font-size: 14px; padding: 12px;
+            transition: all 0.3s;
+        }
+        .form-control::placeholder { color: rgba(0, 242, 255, 0.5); font-style: normal; }
+
+        .form-control:focus {
+            background: rgba(0, 0, 0, 0.8);
+            border-color: var(--p);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+            color: #fff;
+            outline: none;
+        }
+
+        .btn-main {
+            width: 100%; margin-top: 15px; border-radius: 0;
+            background: rgba(0, 242, 255, 0.1);
+            border: 1px solid var(--p);
+            color: var(--p); font-family: var(--f-cyber);
+            font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+            transition: 0.3s;
+            font-size: 15px; padding: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-main:hover {
+            background: var(--p); color: #000;
+            box-shadow: 0 0 25px var(--p);
+            transform: translateY(-2px);
+        }
+
+        .hidden { display: none !important; }
+
+        .cyber-form {
+            animation: fadeInCyber 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeInCyber {
+            from { opacity: 0; transform: translateY(10px); filter: blur(2px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        .footer {
+            position: fixed; bottom: 10px; width: 100%; text-align: center;
+            font-size: 11px; opacity: 0.6; font-family: var(--f-cyber);
+            color: white; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        #msg { text-align: center; margin-top: 20px; font-weight: 700; font-size: 13px; font-family: var(--f-cyber); text-transform: uppercase; min-height: 20px;}
+
+        @media (max-width: 768px) {
+            .banner-text { font-size: 12px; }
+            .auth-box { padding: 30px; max-width: 350px;}
+            body::before, body::after { width: 3px; }
+            .cyber-tabs { gap: 10px; }
+        }
+        
+        .rain { position: absolute; inset: 0; pointer-events: none; z-index: 1;}
+        .drop {
+            position: absolute; bottom: 100%; width: 1px; height: 25px;
+            background: linear-gradient(to bottom, transparent, var(--p));
+            animation: fall_cyber linear infinite; opacity: 0.2;
+        }
+        @keyframes fall_cyber { to { transform: translateY(120vh); } }
+        ::-webkit-scrollbar { width: 0px; }
+        /* Bảng thông báo Admin cố định */
+.admin-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 350px;
+    background: rgba(0, 10, 20, 0.95);
+    border: 2px solid #00f2ff;
+    color: #fff;
+    padding: 25px;
+    z-index: 10000;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 0 50px rgba(0, 242, 255, 0.5);
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+}
+.admin-popup.show {
+    transform: translate(-50%, -50%) scale(1);
+}
+.admin-popup h4 { color: #00f2ff; margin-bottom: 15px; font-size: 18px; text-shadow: 0 0 10px #00f2ff; }
+.admin-popup p { font-size: 14px; line-height: 1.6; margin-bottom: 10px; color: #a0faff; }
+.admin-popup .contact-info { background: rgba(0, 242, 255, 0.1); padding: 10px; border: 1px dashed #00f2ff; margin: 15px 0; }
+.close-popup-btn {
+    background: #00f2ff;
+    color: #000;
+    border: none;
+    padding: 10px 25px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+.close-popup-btn:hover { background: #ff00c8; color: #fff; box-shadow: 0 0 20px #ff00c8; }
+/* Lớp phủ làm mờ nền */
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    z-index: 9999;
+}
+.popup-overlay.show { display: block; }
+    </style>
+</head>
+<body>
+
+<div id="notification" class="cyber-toast">
+    <i class="fas fa-check-circle"></i>
+    <span>ĐĂNG KÝ THÀNH CÔNG! ĐANG CHUYỂN HƯỚNG...</span>
+</div>
+
+<div class="top-banner">
+    <div class="banner-text">
+        👑 Mạng Lưới Xác Thực: Quản trị viên TRẦM HOÀNG BÁCH 2026 // Năm Hệ Thống: 2026 👑
+    </div>
+</div>
+
+<div class="rain" id="rain"></div>
+
+<div class="container-auth">
+    <div class="auth-box">
+        <h3 id="title" class="text-center"><i class="fas fa-key"></i> ĐĂNG NHẬP HỆ THỐNG</h3>
+
+        <div class="cyber-tabs">
+            <button class="tab-btn active" id="btnTabLogin" onclick="showLogin()">ĐĂNG NHẬP</button>
+            <button class="tab-btn" id="btnTabReg" onclick="showRegister()">ĐĂNG KÝ</button>
+        </div>
+
+        <div id="loginForm" class="cyber-form">
+            <input type="email" id="loginEmail" class="form-control mb-3" placeholder="ĐỊA CHỈ EMAIL">
+            <input type="password" id="loginPass" class="form-control mb-3" placeholder="MẬT KHẨU BẢO MẬT">
+            <button class="btn btn-main" onclick="login()">XÁC NHẬN ĐĂNG NHẬP</button>
+        </div>
+
+        <div id="registerForm" class="cyber-form hidden">
+            <input type="email" id="regEmail" class="form-control mb-3" placeholder="ĐỊA CHỈ EMAIL MỚI">
+            <input type="password" id="regPass" class="form-control mb-3" placeholder="MẬT KHẨU MỚI">
+            <button class="btn btn-main" onclick="register()">TIẾN HÀNH ĐĂNG KÝ</button>
+        </div>
+
+        <div id="msg"></div>
+    </div>
+</div>
+
+<div class="footer">© 2026 TRẦN HOÀNG BÁCH // CHỈ HUY HỆ THỐNG</div>
+
+<script>
+    const rainContainer = document.getElementById("rain");
+    for(let i=0;i<60;i++){ 
+        let drop=document.createElement("div");
+        drop.className="drop";
+        drop.style.left=Math.random()*100+"%";
+        drop.style.animationDuration=(0.8+Math.random()*1)+"s"; 
+        drop.style.opacity = Math.random()*0.3;
+        rainContainer.appendChild(drop);
+    }
+
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const title = document.getElementById('title');
+    const msg = document.getElementById('msg');
+    const btnTabLogin = document.getElementById('btnTabLogin');
+    const btnTabReg = document.getElementById('btnTabReg');
+
+    function showRegister(){
+        loginForm.classList.add("hidden");
+        registerForm.classList.remove("hidden");
+        title.innerHTML='<i class="fas fa-user-plus"></i> TẠO TÀI KHOẢN';
+        msg.innerText="";
+        btnTabLogin.classList.remove("active");
+        btnTabReg.classList.add("active");
+    }
+
+    function showLogin(){
+        registerForm.classList.add("hidden");
+        loginForm.classList.remove("hidden");
+        title.innerHTML='<i class="fas fa-key"></i> ĐĂNG NHẬP HỆ THỐNG';
+        msg.innerText="";
+        btnTabReg.classList.remove("active");
+        btnTabLogin.classList.add("active");
+    }
+
+    function encodePass(p){return btoa(p);}
+
+    function register(){
+        let email = regEmail.value.trim();
+        let pass = regPass.value.trim();
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+
+        if(!email || !pass){
+            msg.style.color="#ff00c8"; 
+            msg.innerText="[LỖI] VUI LÒNG ĐIỀN ĐẦY ĐỦ THÔNG TIN";
+            return;
+        }
+
+        if(users.find(u => u.email === email)){
+            msg.style.color="#ff00c8";
+            msg.innerText="[LỖI] TÀI KHOẢN ĐÃ TỒN TẠI";
+            return;
+        }
+
+        let newUser = {
+            email: email,
+            pass: encodePass(pass),
+            role: "customer",
+            date: new Date().toLocaleString('vi-VN')
+        };
+
+        users.push(newUser);
+        localStorage.setItem("users", JSON.stringify(users));
+
+        const notify = document.getElementById('notification');
+        notify.classList.add('active'); 
+        
+        msg.style.color="#00f2ff"; 
+        msg.innerText="[THÀNH CÔNG] ĐÃ TẠO TÀI KHOẢN MỚI";
+
+        setTimeout(() => {
+            notify.classList.remove('active'); 
+            showLogin(); 
+            regEmail.value = ""; 
+            regPass.value = "";
+        }, 2000);
+    }
+
+    /* ===== LOGIN (ĐÃ CẬP NHẬT ĐỂ HIỆN THÔNG BÁO BÊN HOME) ===== */
+    function login(){
+        let email = loginEmail.value.trim();
+        let passRaw = loginPass.value.trim();
+        let passEncoded = encodePass(passRaw);
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+
+        if(email === "admin@bach.com" && passRaw === "123456"){
+            localStorage.setItem("currentUser", JSON.stringify({email: email, role: "admin"}));
+            
+            // Dòng này báo cho trang home hiện thông báo
+            localStorage.setItem("showLoginToast", "true"); 
+            
+            window.location.href="admin.html";
+            return;
+        }
+
+        let found = users.find(u => u.email === email && u.pass === passEncoded);
+
+        if(found){
+            localStorage.setItem("currentUser", JSON.stringify(found));
+            localStorage.setItem("rememberEmail", email);
+            
+            // Dòng này báo cho trang home hiện thông báo
+            localStorage.setItem("showLoginToast", "true"); 
+
+            msg.style.color="#00f2ff";
+            msg.innerText="[OK] ĐANG ĐĂNG NHẬP...";
+            setTimeout(() => { window.location.href="home.html"; }, 800);
+        } else {
+            msg.style.color="#ff00c8";
+            msg.innerText="[LỖI] SAI EMAIL HOẶC MẬT KHẨU";
+        }
+    }
+
+    window.onload=function(){
+        let remembered=localStorage.getItem("rememberEmail");
+        if(remembered){
+            loginEmail.value=remembered;
+        }
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+</body>
+</html>

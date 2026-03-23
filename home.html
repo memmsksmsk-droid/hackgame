@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TRẦN BÁCH - Tết 2026</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<style>
+    /* Container chứa cả thanh tìm kiếm và các nút */
+.header-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+/* Thanh tìm kiếm sẽ tự động dãn ra chiếm chỗ trống */
+.search-bar {
+    flex-grow: 1;
+    min-width: 120px; /* Đảm bảo ô search không bị quá bé */
+}
+
+/* Nhóm các nút (Nạp thẻ, Admin, Profile...) */
+.header-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* --- XỬ LÝ RIÊNG CHO ĐIỆN THOẠI --- */
+@media (max-width: 768px) {
+    .header-container {
+        padding: 5px;
+        gap: 5px;
+    }
+
+    /* 1. Ẩn chữ của nút, chỉ giữ lại Icon để tiết kiệm diện tích */
+    .header-buttons a span, 
+    .header-buttons button span {
+        display: none; 
+    }
+
+    /* 2. Chỉnh lại kích thước nút cho vuông vắn trên mobile */
+    .header-buttons a, 
+    .header-buttons button {
+        padding: 8px 10px !important;
+        font-size: 18px !important; /* Phóng to icon một chút cho dễ bấm */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 40px;
+        height: 40px;
+    }
+
+    /* 3. Nếu nút vẫn quá nhiều, cho phép vuốt ngang nhóm nút */
+    .header-buttons {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        max-width: 150px; /* Giới hạn vùng chứa nút */
+    }
+    
+    /* Ẩn thanh cuộn để nhìn cho mượt */
+    .header-buttons::-webkit-scrollbar {
+        display: none;
+    }
+}
+    /* Chỉ áp dụng cho màn hình nhỏ hơn 768px (Điện thoại & Tablet nhỏ) */
+@media (max-width: 768px) {
+    /* 1. Reset Container: Cho phép lề hẹp lại để tận dụng không gian */
+    .container {
+        width: 95% !important;
+        padding: 10px !important;
+    }
+
+    /* 2. Chỉnh Grid Sản phẩm: Thay vì 3-4 cột, chuyển về 1 hoặc 2 cột */
+    .status-grid {
+        grid-template-columns: 1fr !important; /* Dàn hàng dọc cho dễ nhìn */
+    }
+
+    /* 3. Thu nhỏ Font chữ: Tránh việc tiêu đề quá dài làm vỡ khung */
+    h2, .status-header h5 {
+        font-size: 1.2rem !important;
+    }
+
+    /* 4. Xử lý bảng (Table): Rất quan trọng cho trang Admin/Checkout */
+    table {
+        display: block;
+        overflow-x: auto; /* Cho phép vuốt ngang nếu bảng quá rộng */
+        white-space: nowrap;
+    }
+
+    /* 5. Ẩn bớt các hiệu ứng quá rườm rà trên Mobile để mượt hơn */
+    .cyber-particles {
+        display: none; 
+    }
+}
+    body {
+    background-color: #020406;
+    background-image: 
+        linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    overflow-x: hidden;
+}
+
+/* Hiệu ứng điện chạy 2 bên mép giống trang Login */
+body::before, body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    z-index: 9999;
+    background: #00f2ff;
+    box-shadow: 0 0 15px #00f2ff;
+}
+body::before { left: 0; }
+body::after { right: 0; }
+    /* BẢNG THÔNG BÁO ADMIN CAO CẤP */
+.admin-mega-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 450px; /* Dài và rộng hơn */
+    background: rgba(2, 5, 10, 0.98);
+    border: 2px solid #00f2ff;
+    color: #fff;
+    padding: 30px;
+    z-index: 100000;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 0 50px rgba(0, 242, 255, 0.3), inset 0 0 20px rgba(0, 242, 255, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    clip-path: polygon(0 0, 90% 0, 100% 10%, 100% 100%, 10% 100%, 0 90%);
+}
+
+.admin-mega-box.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.admin-mega-box h2 {
+    color: #00f2ff;
+    font-size: 20px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-content {
+    text-align: left;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.info-row {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: rgba(0, 242, 255, 0.05);
+    border-left: 3px solid #ff00c8;
+}
+
+.label { color: #ff00c8; font-weight: bold; font-size: 12px; text-transform: uppercase; display: block; }
+.value { color: #fff; font-size: 17px; letter-spacing: 1px; }
+
+.reminder-text {
+    font-size: 14px;
+    color: #a0faff;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    margin-top: 15px;
+    border: 1px solid rgba(0, 242, 255, 0.1);
+}
+
+.close-btn-cyber {
+    width: 100%;
+    margin-top: 25px;
+    background: transparent;
+    border: 1px solid #00f2ff;
+    color: #00f2ff;
+    padding: 12px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+}
+
+.close-btn-cyber:hover {
+    background: #00f2ff;
+    color: #000;
+    box-shadow: 0 0 20px #00f2ff;
+}
+
+/* Lớp phủ tối nền */
+.mega-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 99999;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.4s;
+}
+.mega-overlay.active { opacity: 1; visibility: visible; }
+    /* --- THÔNG BÁO DÀNH RIÊNG CHO ĐĂNG NHẬP THÀNH CÔNG --- */
+.cyber-toast-home {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 242, 255, 0.2);
+    border: 1px solid #00f2ff;
+    color: #00f2ff;
+    padding: 15px 30px;
+    font-family: 'Orbitron', sans-serif; /* Hoặc font bạn đang dùng */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 10001;
+    transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: bold;
+}
+.cyber-toast-home.active {
+    top: 20px;
+}
+/* ĐÈN LỒNG TREO 2 BÊN */
+.lantern-box {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    pointer-events: none;
+    font-size: 40px;
+    animation: swing 3s ease-in-out infinite alternate;
+    transform-origin: top center;
+}
+.lantern-left { left: 20px; }
+.lantern-right { right: 20px; }
+
+@keyframes swing {
+    0% { transform: rotate(-5deg); }
+    100% { transform: rotate(5deg); }
+}
+
+/* Hiệu ứng viền vàng chạy quanh ảnh sản phẩm */
+.card:hover {
+    outline: 3px solid #FFD700;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8) !important;
+}
+/* ===== BACKGROUND TẾT ===== */
+body{
+    .lantern-box {
+    color: #00f2ff;
+    text-shadow: 0 0 20px #00f2ff;
+    font-size: 30px;
+}
+}
+
+/* ===== NAVBAR ===== */
+.navbar{
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(5px);
+}
+
+/* ===== HERO ===== */
+.hero{
+    position: relative;
+    height: 70vh;
+    background: url('https://cdn-v3.xtmobile.vn/vnt_upload/news/05_2024/09/hinh-nen-hacker-cho-may-tinh-1-xtmobile.jpg') center/cover no-repeat;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:white;
+}
+
+.hero::after{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+}
+
+.hero h1{
+    font-size:60px;
+    font-weight:bold;
+    color:#FFD700;
+    text-shadow:0 0 20px gold;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow{
+    from{ text-shadow:0 0 10px gold; }
+    to{ text-shadow:0 0 30px #fff200; }
+}
+
+/* ===== DANH MỤC ===== */
+.category-section{
+    background:white;
+    padding:30px 0;
+    text-align:center;
+}
+
+.category-section .btn{
+    margin:5px;
+    border-radius:30px;
+}
+
+/* ===== CARD SẢN PHẨM ===== */
+.product-img{
+    height:250px;
+    object-fit:cover;
+}
+
+.card {
+    background: rgba(6, 11, 19, 0.8) !important;
+    border: 1px solid rgba(0, 242, 255, 0.2) !important;
+    border-radius: 0 !important; /* Bỏ bo góc */
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%); /* Cắt góc kiểu Cyber */
+    transition: 0.3s;
+}
+
+.card:hover {
+    border-color: #00f2ff !important;
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.4) !important;
+    transform: translateY(-5px);
+}
+
+.card-title {
+    color: #00f2ff;
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+}
+
+.badge-sale{
+    position:absolute;
+    top:10px;
+    left:10px;
+}
+
+/* ===== FOOTER ===== */
+footer{
+    background:#000;
+}
+
+/* ===== HIỆU ỨNG HOA RƠI ===== */
+.flower{
+    position:fixed;
+    top:-10px;
+    color:#FFD700;
+    animation: fall linear infinite;
+    z-index:9999;
+}
+
+@keyframes fall{
+    to{
+        transform:translateY(110vh);
+    }
+}
+/* Bảng thông báo Admin cố định */
+.admin-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 350px;
+    background: rgba(0, 10, 20, 0.95);
+    border: 2px solid #00f2ff;
+    color: #fff;
+    padding: 25px;
+    z-index: 10000;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 0 50px rgba(0, 242, 255, 0.5);
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+}
+.admin-popup.show {
+    transform: translate(-50%, -50%) scale(1);
+}
+.admin-popup h4 { color: #00f2ff; margin-bottom: 15px; font-size: 18px; text-shadow: 0 0 10px #00f2ff; }
+.admin-popup p { font-size: 14px; line-height: 1.6; margin-bottom: 10px; color: #a0faff; }
+.admin-popup .contact-info { background: rgba(0, 242, 255, 0.1); padding: 10px; border: 1px dashed #00f2ff; margin: 15px 0; }
+.close-popup-btn {
+    background: #00f2ff;
+    color: #000;
+    border: none;
+    padding: 10px 25px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+.close-popup-btn:hover { background: #ff00c8; color: #fff; box-shadow: 0 0 20px #ff00c8; }
+/* Lớp phủ làm mờ nền */
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    z-index: 9999;
+}
+.popup-overlay.show { display: block; }
+</style>
+</head>
+<body>
+    <div id="cyber-intro-overlay">
+    <div class="cyber-intro-content">
+        <div class="access-granted">
+            <span class="glitch-text" data-text="ACCESS GRANTED">ACCESS GRANTED</span>
+        </div>
+        <div class="welcome-msg">CHÀO MỪNG QUÝ KHÁCH ĐÃ TRỞ LẠI</div>
+        <div class="scanner-line"></div>
+        <div class="loading-bar-container">
+            <div class="loading-bar-fill"></div>
+        </div>
+        <div class="system-status">SYSTEM READY... 100%</div>
+    </div>
+</div>
+
+<style>
+#cyber-intro-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at center, #001a1d 0%, #000 100%);
+    display: none; /* Ẩn mặc định, hiện bằng JS */
+    justify-content: center;
+    align-items: center;
+    z-index: 99999; /* Luôn trên cùng */
+    flex-direction: column;
+}
+
+.cyber-intro-content {
+    text-align: center;
+    position: relative;
+}
+
+.access-granted {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #00f2ff;
+    text-shadow: 0 0 20px #00f2ff;
+    margin-bottom: 10px;
+}
+
+.glitch-text {
+    position: relative;
+    display: inline-block;
+    animation: glitch 1s infinite;
+}
+
+.welcome-msg {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.5rem;
+    color: #fff;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+/* Hiệu ứng thanh quét Laser */
+.scanner-line {
+    position: absolute;
+    top: -50px;
+    left: -20%;
+    width: 140%;
+    height: 2px;
+    background: #00f2ff;
+    box-shadow: 0 0 15px #00f2ff;
+    animation: scan 1.5s linear infinite;
+}
+
+/* Thanh loading cực xịn */
+.loading-bar-container {
+    width: 300px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 30px auto 10px;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.loading-bar-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff00c8, #00f2ff);
+    box-shadow: 0 0 10px #00f2ff;
+    animation: fillBar 2.5s forwards ease-in-out;
+}
+
+.system-status {
+    font-size: 10px;
+    color: #00f2ff;
+    letter-spacing: 2px;
+}
+
+/* Animations */
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes scan {
+    0% { top: -20%; opacity: 0; }
+    50% { opacity: 1; }
+    100% { top: 120%; opacity: 0; }
+}
+
+@keyframes fillBar {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+/* Hiệu ứng biến mất sau 3s */
+.fade-out {
+    animation: fadeOutEffect 0.5s forwards;
+}
+
+@keyframes fadeOutEffect {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(1.2); visibility: hidden; }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .access-granted { font-size: 1.8rem; }
+    .welcome-msg { font-size: 0.9rem; letter-spacing: 2px; }
+}
+</style>
+    <div id="megaOverlay" class="mega-overlay"></div>
+<div id="adminMegaBox" class="admin-mega-box">
+    <h2><i class="fas fa-user-shield"></i> HỆ THỐNG XÁC THỰC</h2>
+    
+    <div class="admin-content">
+        <div class="info-row">
+            <span class="label">Chủ quản hệ thống:</span>
+            <span class="value">TRẦN BÁCH (ADMIN)</span>
+        </div>
+        
+        <div class="info-row">
+            <span class="label">Hotline hỗ trợ 24/7:</span>
+            <span class="value">0379005818</span>
+        </div>
+
+        <div class="reminder-text">
+            <strong><i class="fas fa-bell"></i> LỜI NHẮC HỆ THỐNG:</strong><br>
+            Chào mừng bạn đã truy cập thành công vào phiên bản 2026. Vui lòng không chia sẻ tài khoản cho người lạ. Mọi giao dịch cần kiểm tra kỹ thông tin Admin để tránh lừa đảo. Chúc bạn một ngày làm việc hiệu quả! NẾU BẠN KHÔNG CÓ PHƯƠNG THỨC CHUYỂN KHOẢN BẠN CÓ THỂ LIÊN HỆ ADMIN ĐỂ GẠCH THẺ 
+        </div>
+    </div>
+
+    <button class="close-btn-cyber" onclick="closeMegaBox()">XÁC NHẬN & ĐÓNG</button>
+</div>
+    <div class="side-decoration side-left" id="sideLeft"></div>
+<div class="side-decoration side-right" id="sideRight"></div>
+    <div class="lantern-box lantern-left">🏮</div>
+<div class="lantern-box lantern-right">🏮</div>
+
+<!-- NAVBAR -->
+ 
+<nav class="navbar navbar-expand-lg navbar-dark bg-black sticky-top">
+<div class="container">
+<a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
+    <img src="z7575849532825_4e2b69bb6af09023669f3145af18ada1.jpg" alt="logo" width="35" height="35" class="brand-logo">
+    TRẦN BÁCH STORE 
+</a>
+<div class="music-container">
+    <button id="music-btn" class="music-btn playing">
+        <span class="music-icon">🎵</span>
+        <span class="music-text">Nhạc chill </span>
+        <div class="wave-bars">
+            <span></span><span></span><span></span>
+        </div>
+    </button>
+    <audio id="bg-music" loop>
+        <source src="nhactranghome.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<a href="bach.html" style="
+margin-left:15px;
+padding:8px 18px;
+border-radius:30px;
+background:linear-gradient(45deg,#ff0055,#ff9900);
+color:white;
+font-weight:bold;
+text-decoration:none;
+box-shadow:0 0 15px rgba(255,0,100,0.7);
+transition:0.3s;
+">
+💎 Giúp Đỡ Admin
+</a>
+
+<div class="ms-auto d-flex align-items-center">
+ <div class="theme-toggle me-3">
+    <i id="themeIcon" class="bi bi-moon-fill"></i>
+</div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">   
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com">
+
+<a href="home.html" class="btn btn-outline-light btn-sm me-2">Trang chủ</a>
+<a href="https://t.me/skibidibach" class="btn btn-outline-light btn-sm me-3">tele</a>
+
+<div class="search-wrapper me-3">
+    <i class="bi bi-search"></i>
+    <input class="form-control" id="searchInput" type="text" placeholder="Tìm sản phẩm...">
+</div>
+
+</div>
+
+</div>
+<canvas id="rainCanvas"></canvas>
+</nav>
+<!-- HERO -->
+<section class="hero">
+<div class="hero-content">
+<h1>SALE HACK ADR IOS PC</h1>
+<p class="fs-4">Giảm giá cực sốc - Mua sắm thả ga</p>
+<a href="#products" class="btn btn-warning btn-lg mt-3">Mua ngay</a>
+</div>
+</section>
+
+<!-- DANH MỤC -->
+<section class="category-section">
+<button class="btn btn-danger" onclick="filterCategory('all')">Tất cả</button>
+<button class="btn btn-outline-danger" onclick="filterCategory('ios')">ios</button>
+<button class="btn btn-outline-danger" onclick="filterCategory('adr')">adr</button>
+<button class="btn btn-outline-danger" onclick="filterCategory('pc')">pc</button>
+</section>
+
+<!-- SẢN PHẨM -->
+<section class="py-5" id="products">
+<div class="container">
+<div class="row g-4" id="productList">
+    <div id="noProduct" style="
+display:none;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+color:red;
+padding:40px;
+width:100%;
+">
+❌ Không có sản phẩm
+</div>
+
+<!-- SẢN PHẨM MẪU -->
+<div class="col-md-3 product" data-category="ios" data-name="FLourite">
+<div class="card shadow-sm position-relative">
+<span class="badge bg-danger badge-sale">-20%</span>
+<img src="image.png" class="card-img-top product-img">
+<div class="card-body text-center">
+<h6>FLourite gốc 30 ngày </h6>
+<p class="text-danger fw-bold">350.000đ</p>
+<a href="payment.html" class="btn btn-dark">Mua hàng </a>
+</div>
+</div>
+</div>
+
+
+<div class="col-md-3 product" data-category="ios" data-name="FLourite">
+<div class="card shadow-sm">
+<img src="image.png" class="card-img-top product-img">
+<div class="card-body text-center">
+<h6>FLourite gốc 15 ngày </h6>
+<p class="text-danger fw-bold">220.000đ</p>
+<a href="payment.html" class="btn btn-dark">Mua hàng</a>
+</div>
+</div>
+</div>
+
+<div class="col-md-3 product" data-category="ios" data-name="migul">
+<div class="card shadow-sm">
+<img src="photo_2026-01-20_09-16-05.jpg" class="card-img-top product-img">
+<div class="card-body text-center">
+<h6>Migul ios tháng </h6>
+<p class="text-danger fw-bold">220.000đ</p>
+<a href="payment.html" class="btn btn-dark">mua hàng</a>
+</div>
+</div>
+</div>
+
+<div class="col-md-3 product" data-category="ios" data-name="migul tuần">
+<div class="card shadow-sm">
+<img src="photo_2026-01-20_09-16-05.jpg" class="card-img-top product-img">
+<div class="card-body text-center">
+<h6>Migul ios tuần </h6>
+<p class="text-danger fw-bold">150.000đ</p>
+<a href="payment.html" class="btn btn-dark">mua hàng</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-5" id="products">
+    <div class="container">
+        <div class="row g-4" id="productList">
+            
+            <div class="col-md-3 col-6 product" data-category="adr">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="flu adr.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">FLourite adr 15 ngày</h6>
+                        <p class="text-danger fw-bold">80.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 product" data-category="adr">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="flu adr.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">FLourite adr 30 ngày</h6>
+                        <p class="text-danger fw-bold">150.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 product" data-category="pc">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="z7648550385965_b8775c71d90a4e06e60f1a63397254f8.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">brutal pc 15 ngày</h6>
+                        <p class="text-danger fw-bold">100.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 product" data-category="pc">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="z7648550385965_b8775c71d90a4e06e60f1a63397254f8.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">brutal pc 30 ngày </h6>
+                        <p class="text-danger fw-bold">150.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+        </div> </div>
+</section>
+<section class="py-5" id="products">
+    <div class="container">
+        <div class="row g-4" id="productList">
+            
+            <div class="col-md-3 col-6 product" data-category="ios">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="draculapro.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">dracula pro 15 ngày </h6>
+                        <p class="text-danger fw-bold">150.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 product" data-category="ios">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="draculapro.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">dracula pro 30 ngày </h6>
+                        <p class="text-danger fw-bold">250.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 product" data-category="ios">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="draculaegine.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">dracula egine 15 ngày</h6>
+                        <p class="text-danger fw-bold">130.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 product" data-category="ios">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="draculaegine.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">dracula egine 30 ngày  </h6>
+                        <p class="text-danger fw-bold">220.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+        </div> </div>
+</section>
+<section class="py-5" id="products">
+    <div class="container">
+        <div class="row g-4" id="productList">
+            
+            <div class="col-md-3 col-6 product" data-category="ios">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="v1.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">aimbot prx v1 15 ngày </h6>
+                        <p class="text-danger fw-bold">70.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 product" data-category="ios">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="v1.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">aimbot prx v1 30 ngày </h6>
+                        <p class="text-danger fw-bold">120.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 product" data-category="ios">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="v2.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">aimbot prx v2 15 ngày</h6>
+                        <p class="text-danger fw-bold">80.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 product" data-category="ios">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="v2.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">aimbot prx v2 30 ngày  </h6>
+                        <p class="text-danger fw-bold">140.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+        </div> </div>
+</section>
+<section class="py-5" id="products">
+    <div class="container">
+        <div class="row g-4" id="productList">
+            
+            <div class="col-md-3 col-6 product" data-category="ios">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="iosviet.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">ios viet 15 ngày </h6>
+                        <p class="text-danger fw-bold">70.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 product" data-category="ios">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="iosviet.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">ios viet 30 ngày </h6>
+                        <p class="text-danger fw-bold">150.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 product" data-category="ios">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="sonic.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">sonic mod 15 ngày</h6>
+                        <p class="text-danger fw-bold">120.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 product" data-category="ios">
+                <div class="card shadow-sm h-100" style="background: #1a1a1a; border: 1px solid #333;">
+                    <img src="sonic.jpg" class="card-img-top product-img" alt="FLourite">
+                    <div class="card-body text-center">
+                        <h6 class="text-white">sonic mod 30 ngày  </h6>
+                        <p class="text-danger fw-bold">180.000đ</p>
+                        <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                    </div>
+                </div>
+            </div>
+
+        </div> </div>
+</section>
+
+        </div> </div>
+</section>
+
+<!-- JS -->
+<style>
+    .status-container {
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(0, 242, 255, 0.3);
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
+        backdrop-filter: blur(10px);
+    }
+
+    .status-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+        padding-bottom: 10px;
+    }
+
+    .status-header h5 {
+        color: #00f2ff;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin: 0;
+        font-weight: bold;
+        text-shadow: 0 0 10px #00f2ff;
+    }
+
+    .status-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .status-item {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 15px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: 0.3s;
+        border: 1px solid transparent;
+    }
+
+    .status-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(0, 242, 255, 0.5);
+    }
+
+    .tool-name {
+        font-weight: 500;
+        color: #e0e0e0;
+    }
+
+    /* Hiệu ứng đèn LED nhấp nháy */
+    .led-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .led-light {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        animation: blink 1.5s infinite;
+    }
+
+    /* Màu trạng thái */
+    .safe { color: #2ecc71; }
+    .led-safe { background-color: #2ecc71; box-shadow: 0 0 10px #2ecc71; }
+
+    .updating { color: #f1c40f; }
+    .led-updating { background-color: #f1c40f; box-shadow: 0 0 10px #f1c40f; }
+
+    .detected { color: #e74c3c; }
+    .led-detected { background-color: #e74c3c; box-shadow: 0 0 10px #e74c3c; }
+
+    @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: 0.3; }
+        100% { opacity: 1; }
+    }
+</style>
+
+<div class="container">
+    <div class="status-container">
+        <div class="status-header">
+            <h5><i class="fas fa-server"></i> HỆ THỐNG TRẠNG THÁI</h5>
+            <small style="color: #888;">Cập nhật: Vừa xong</small>
+        </div>
+        <div class="status-grid">
+            <div class="status-item">
+                <span class="tool-name">Dracula Engine</span>
+                <div class="led-box safe">
+                    <span>Undetected</span>
+                    <div class="led-light led-safe"></div>
+                </div>
+            </div>
+            <div class="status-item">
+                <span class="tool-name">Flu Adr</span>
+                <div class="led-box updating">
+                    <span>Updating</span>
+                    <div class="led-light led-updating"></div>
+                </div>
+            </div>
+            <div class="status-item">
+                <span class="tool-name">VIP Analyzer</span>
+                <div class="led-box safe">
+                    <span>Working</span>
+                    <div class="led-light led-safe"></div>
+                </div>
+            </div>
+            <div class="status-item">
+                <span class="tool-name">External Cheat</span>
+                <div class="led-box detected">
+                    <span>Detected</span>
+                    <div class="led-light led-detected"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function closeMegaBox() {
+    document.getElementById('adminMegaBox').classList.remove('active');
+    document.getElementById('megaOverlay').classList.remove('active');
+}
+
+window.addEventListener('load', function() {
+    // Kiểm tra cờ từ trang index
+    if (localStorage.getItem("showLoginToast") === "true") {
+        const box = document.getElementById('adminMegaBox');
+        const overlay = document.getElementById('megaOverlay');
+        
+        setTimeout(() => {
+            box.classList.add('active');
+            overlay.classList.add('active');
+            
+            // Xóa cờ để không hiện lại khi F5
+            localStorage.removeItem("showLoginToast");
+        }, 600);
+    }
+});
+    // Hàm đóng popup
+function closeAdminPopup() {
+    document.getElementById('adminPopup').classList.remove('show');
+    document.getElementById('overlay').classList.remove('show');
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+    // Chỉ hiện khi có lệnh từ trang login
+    if (localStorage.getItem("showLoginToast") === "true") {
+        const popup = document.getElementById('adminPopup');
+        const overlay = document.getElementById('overlay');
+        
+        // Hiện popup và lớp phủ
+        setTimeout(() => {
+            popup.classList.add('show');
+            overlay.classList.add('show');
+            
+            // Xóa nhãn để F5 không hiện lại
+            localStorage.removeItem("showLoginToast");
+        }, 500);
+    }
+});
+    window.addEventListener('load', function() {
+    // Kiểm tra xem có nhãn "vừa mới đăng nhập" không
+    if (localStorage.getItem("vuaMoiDangNhap") === "true") {
+        const notify = document.getElementById('loginSuccessNotify');
+        
+        // Hiện thông báo
+        setTimeout(() => {
+            notify.classList.add('active');
+        }, 500); // Đợi 0.5s sau khi load trang cho mượt
+
+        // Xóa nhãn ngay lập tức để khi F5 trang nó không hiện lại nữa
+        localStorage.removeItem("vuaMoiDangNhap");
+
+        // Tự ẩn thông báo sau 3 giây
+        setTimeout(() => {
+            notify.classList.remove('active');
+        }, 3500);
+    }
+});
+    function createSideEffects() {
+    const sides = [document.getElementById('sideLeft'), document.getElementById('sideRight')];
+    
+    sides.forEach(side => {
+        // Tạo đồng xu vàng 3D
+        setInterval(() => {
+            const coin = document.createElement('div');
+            coin.className = 'cyber-coin';
+            coin.innerHTML = '福'; // Chữ "Phúc" hoặc "Vip"
+            coin.style.left = Math.random() * 80 + 'px';
+            coin.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            
+            // Đổi màu Neon ngẫu nhiên cho hào quang đồng xu
+            const neonColors = ['#FFD700', '#00f2ff', '#ff0055'];
+            const color = neonColors[Math.floor(Math.random() * neonColors.length)];
+            coin.style.boxShadow = `0 0 20px ${color}`;
+            
+            side.appendChild(coin);
+            setTimeout(() => coin.remove(), 7000);
+        }, 1500);
+
+        // Tạo vạch kẻ Cyber Scan
+        setInterval(() => {
+            const line = document.createElement('div');
+            line.className = 'cyber-line';
+            line.style.left = Math.random() * 100 + 'px';
+            line.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            side.appendChild(line);
+            setTimeout(() => line.remove(), 4000);
+        }, 1000);
+    });
+}
+
+// Chạy hiệu ứng
+createSideEffects();
+    // ===== ĐẾM LƯỢT XEM =====
+if(!localStorage.getItem("viewCount")){
+    localStorage.setItem("viewCount",0);
+}
+let views = parseInt(localStorage.getItem("viewCount"));
+views++;
+localStorage.setItem("viewCount",views);
+
+const searchInput = document.getElementById("searchInput");
+const products = document.querySelectorAll(".product");
+
+searchInput.addEventListener("keyup", function(){
+
+let keyword = this.value.toLowerCase();
+let found = false;
+
+products.forEach(product => {
+
+let productName = product.querySelector("h6").innerText.toLowerCase();
+
+if(productName.includes(keyword)){
+    product.style.display = "block";
+    found = true;
+}else{
+    product.style.display = "none";
+}
+
+});
+
+if(!found){
+document.getElementById("noProduct").style.display="block";
+}else{
+document.getElementById("noProduct").style.display="none";
+}
+
+});
+
+function filterCategory(category){
+document.querySelectorAll(".product").forEach(p=>{
+if(category==="all" || p.getAttribute("data-category")===category){
+p.style.display="block";
+}else{
+p.style.display="none";
+}
+});
+}
+
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- CONTACT ICON RAINBOW PRO -->
+<style>
+    /* =========================================
+   HIỆU ỨNG HACKER CHO VÙNG DANH MỤC
+   ========================================= */
+
+/* 1. Tạo vùng nền Scan kỹ thuật phía sau */
+.category-section {
+    position: relative; /* Bắt buộc để lớp nền nằm đúng vị trí */
+    background: #000 !important; /* Đổi nền trắng thành đen sâu */
+    overflow: hidden; /* Cắt phần hiệu ứng thừa */
+    border-top: 2px solid #00f2ff;
+    border-bottom: 2px solid #00f2ff;
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+}
+
+/* Lớp lưới điện mờ */
+.category-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(0, 242, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 242, 255, 0.1) 1px, transparent 1px);
+    background-size: 15px 15px;
+    z-index: 1;
+    opacity: 0.5;
+}
+
+/* Lớp vạch quét (Scan Line) chạy dọc */
+.category-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 255, 255, 0.05) 50%,
+        transparent 100%
+    );
+    animation: scanLine 3s linear infinite;
+    z-index: 2;
+}
+
+@keyframes scanLine {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+/* 2. Cyber hóa các nút bấm */
+.category-section .btn {
+    position: relative;
+    z-index: 3; /* Nổi lên trên nền scan */
+    font-family: 'Orbitron', sans-serif; /* Dùng font Cyber (cần import) */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 0 !important; /* Bỏ bo góc */
+    transition: 0.3s;
+    font-size: 13px;
+    padding: 8px 20px;
+}
+
+/* Nút Active (Tất cả) - Hồng Neon */
+.category-section .btn-danger {
+    background: transparent !important;
+    border: 1px solid #ff00c8 !important;
+    color: #ff00c8 !important;
+    box-shadow: 0 0 10px rgba(255, 0, 200, 0.5);
+}
+
+/* Nút thường (ios, adr...) - Xanh Neon */
+.category-section .btn-outline-danger {
+    background: transparent !important;
+    border: 1px solid #00f2ff !important;
+    color: #00f2ff !important;
+}
+
+/* Hiệu ứng Glitch nhẹ khi Hover nút */
+.category-section .btn:hover {
+    transform: skewX(-10deg); /* Nghiêng nút */
+    box-shadow: 0 0 20px #00f2ff, 0 0 40px #00f2ff !important;
+    color: #fff !important;
+}
+
+/* 3. Đảm bảo Font Cyber được tải (Dán vào đầu thẻ <head>) */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+    .btn-primary {
+    background: transparent !important;
+    border: 1px solid #ff00c8 !important; /* Màu hồng Neon */
+    color: #ff00c8 !important;
+    text-transform: uppercase;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 2px;
+    position: relative;
+    border-radius: 0;
+}
+
+.btn-primary:hover {
+    background: #ff00c8 !important;
+    color: #fff !important;
+    box-shadow: 0 0 15px #ff00c8;
+}
+    /* ===== SIDE DECORATION - VIP PRO MAX ===== */
+.side-decoration {
+    position: fixed;
+    top: 0;
+    width: 150px; /* Độ rộng vùng hiệu ứng 2 bên */
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+.side-left { left: 0; }
+.side-right { right: 0; }
+
+/* Đồng xu 3D với hào quang Neon */
+.cyber-coin {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, #FFD700 20%, #B8860B 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 15px #FFD700, 0 0 30px rgba(255, 215, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #8B0000;
+    font-size: 20px;
+    border: 2px solid #FFF200;
+    animation: float3D 6s linear infinite;
+    opacity: 0.8;
+}
+
+/* Hiệu ứng vạch kẻ Cyber chạy dọc */
+.cyber-line {
+    position: absolute;
+    width: 2px;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, #00f2ff, transparent);
+    animation: cyberScan 4s linear infinite;
+    filter: drop-shadow(0 0 8px #00f2ff);
+}
+
+@keyframes float3D {
+    0% { transform: translateY(110vh) rotateY(0deg) rotateX(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-10vh) rotateY(360deg) rotateX(180deg); opacity: 0; }
+}
+
+@keyframes cyberScan {
+    0% { transform: translateY(-100px); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
+}
+.floating-contact{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    z-index:9999;
+}
+
+.contact-item{
+    position:relative;
+}
+
+.contact-btn{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:white;
+    position:relative;
+    z-index:2;
+}
+
+.contact-btn img{
+    width:34px;
+    height:34px;
+}
+
+/* CẦU VỒNG XUNG QUANH */
+.contact-btn::before{
+    content:"";
+    position:absolute;
+    top:-5px;
+    left:-5px;
+    right:-5px;
+    bottom:-5px;
+    border-radius:50%;
+    background:conic-gradient(
+        red, orange, yellow, green, cyan, blue, violet, red
+    );
+    z-index:-1;
+    animation:rotate 3s linear infinite;
+    filter:blur(6px);
+}
+
+.contact-btn:hover{
+    transform:scale(1.15);
+    transition:0.4s;
+}
+
+.contact-text{
+    position:absolute;
+    right:80px;
+    top:50%;
+    transform:translateY(-50%);
+    background:#111;
+    color:white;
+    padding:8px 14px;
+    border-radius:20px;
+    font-size:14px;
+    opacity:0;
+    transition:0.3s;
+    white-space:nowrap;
+}
+
+.contact-item:hover .contact-text{
+    opacity:1;
+}
+
+@keyframes rotate{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
+}
+
+</style>
+
+<div class="floating-contact">
+
+    <!-- ZALO -->
+    <a href="zalo.me/ 84898435621" target="_blank" class="contact-item">
+        <div class="contact-text">Chat Zalo</div>
+        <div class="contact-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg">
+        </div>
+    </a>
+
+    <!-- MESSENGER (FIX LỖI ICON) -->
+    <a href="https://t.me/bochuai11" target="_blank" class="contact-item">
+        <div class="contact-text">Messenger</div>
+        <div class="contact-btn">
+            <img src="data:image/png;base64,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">
+        </div>
+    </a>
+
+    <!-- PHONE -->
+    <a href="tel:84898435621" class="contact-item">
+        <div class="contact-text">Gọi ngay</div>
+        <div class="contact-btn">
+            <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png">
+        </div>
+    </a>
+
+</div>
+<!-- FOOTER CREATIVE PRO -->
+<style>
+.footer{
+    position:relative;
+    background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1c1c1c);
+    background-size:400% 400%;
+    animation:gradientMove 12s ease infinite;
+    color:white;
+    padding:80px 20px 30px;
+    margin-top:120px;
+    overflow:hidden;
+}
+
+/* SÓNG TRÊN FOOTER */
+.footer::before{
+    content:"";
+    position:absolute;
+    top:-60px;
+    left:0;
+    width:100%;
+    height:120px;
+    background:radial-gradient(circle at 50% 100%, rgba(0,255,255,0.4), transparent 70%);
+}
+
+.footer-container{
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:40px;
+}
+
+.footer-box{
+    transition:0.4s;
+}
+
+.footer-box:hover{
+    transform:translateY(-8px);
+}
+
+.footer h3{
+    font-size:18px;
+    margin-bottom:15px;
+    position:relative;
+}
+
+/* GẠCH CHÂN CẦU VỒNG */
+.footer h3::after{
+    content:"";
+    position:absolute;
+    bottom:-5px;
+    left:0;
+    width:60px;
+    height:3px;
+    background:linear-gradient(to right,red,orange,yellow,green,cyan,blue,violet);
+    animation:rainbowMove 4s linear infinite;
+}
+
+.footer p{
+    margin:8px 0;
+    font-size:14px;
+    opacity:0.9;
+    transition:0.3s;
+}
+
+.footer p:hover{
+    color:#00f5ff;
+    transform:translateX(5px);
+}
+
+.footer a{
+    color:#00f5ff;
+    text-decoration:none;
+}
+
+.footer a:hover{
+    text-decoration:underline;
+}
+
+.footer-bottom{
+    text-align:center;
+    margin-top:40px;
+    padding-top:20px;
+    border-top:1px solid rgba(255,255,255,0.2);
+    font-size:13px;
+    opacity:0.7;
+}
+
+/* ANIMATION */
+@keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+@keyframes rainbowMove{
+    0%{filter:hue-rotate(0deg);}
+    100%{filter:hue-rotate(360deg);}
+}
+</style>
+
+<footer class="footer">
+    
+    <div class="footer-container">
+<!-- NÚT ADMIN QUANTUM RGB - PHIÊN BẢN ĐẦU TƯ -->
+<div class="admin-quantum-wrapper">
+    <a href="admin.html" class="quantum-btn">
+        <span class="quantum-border"></span>
+        <div class="quantum-content">
+            <i class="bi bi-terminal-fill"></i>
+            <span>ADMIN</span>
+        </div>
+    </a>
+</div>
+
+
+<style>
+/* Container tinh gọn */
+.admin-quantum-wrapper {
+    padding: 30px 0;
+    display: flex;
+    justify-content: center;
+    background: transparent;
+}
+
+/* Nút bấm Quantum */
+.quantum-btn {
+    position: relative;
+    width: 160px; /* Độ rộng bé, gọn gàng */
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border-radius: 50px; /* Bo tròn cực mạnh */
+    overflow: hidden; /* Cắt phần gradient thừa bên ngoài */
+    transition: 0.4s;
+    background: #000;
+}
+
+/* Hiệu ứng viền cầu vồng chạy xung quanh */
+.quantum-border {
+    position: absolute;
+    width: 200%; /* Rộng hơn nút để quay */
+    height: 500%;
+    background: conic-gradient(
+        #ff0000, #ff7300, #fffb00, #48ff00, 
+        #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000
+    );
+    animation: rotateRGB 3s linear infinite;
+    z-index: 1;
+}
+
+/* Lớp phủ bên trong để tạo khoảng trống cho viền */
+.quantum-content {
+    position: relative;
+    z-index: 2;
+    width: calc(100% - 4px); /* Tạo viền 2px */
+    height: calc(100% - 4px);
+    background: rgba(10, 10, 10, 0.95); /* Nền đen sâu */
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    transition: 0.3s;
+}
+
+/* Icon & Chữ */
+.quantum-content i {
+    font-size: 14px;
+    background: linear-gradient(45deg, #00f2ff, #00ff88);
+    -webkit-text-fill-color: transparent;
+}
+
+/* Hiệu ứng khi Hover */
+.quantum-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+}
+
+.quantum-btn:hover .quantum-content {
+    background: rgba(255, 255, 255, 0.05); /* Hiện nền nhẹ khi hover */
+    color: #fff;
+}
+
+.quantum-btn:hover .quantum-border {
+    animation-duration: 1s; /* Chạy nhanh hơn khi di chuột vào */
+}
+
+/* Keyframes xoay vòng cầu vồng */
+@keyframes rotateRGB {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+/* --- THÔNG BÁO DÀNH RIÊNG CHO ĐĂNG NHẬP THÀNH CÔNG --- */
+.cyber-toast-home {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 242, 255, 0.2);
+    border: 1px solid #00f2ff;
+    color: #00f2ff;
+    padding: 15px 30px;
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 10001;
+    transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: bold;
+}
+.cyber-toast-home.active {
+    top: 20px;
+}
+
+</style>
+
+
+
+        <div class="footer-box">
+            <h3>📍 Địa chỉ cửa hàng</h3>
+            <p>nhà số 2 ngõ 1</p>
+            <p>Phường quận 2</p>
+            <p>TP. Hồ Chí Minh</p>
+        </div>
+
+        <div class="footer-box">
+            <h3>📞 Liên hệ</h3>
+            <p>Hotline: 0379005818</p>
+            <p>Zalo: <a href="https://zalo.me/0379005818">Chat ngay</a></p>
+            <p>tele: <a href="https://t.me/skibidibach">Nhắn tin</a></p>
+            <p>Email: memmsksmsk@gmail.com</p>
+        </div>
+
+        <div class="footer-box">
+            <h3>👑 Thông tin Admin</h3>
+            <p>Admin: TRẦN HOÀNG BÁCH/p>
+            <p>Website Developer: TRAN HOANG BACH</p>
+            <p>Thiết kế & vận hành: 2026</p>
+            <p>Hỗ trợ 24/7</p>
+        </div>
+
+    </div>
+<a href="danh-gia.html" class="btn-danh-gia">
+  <div class="tick-xanh">
+    <i class="fas fa-check"></i>
+  </div>
+  <span>Đánh giá</span>
+</a>
+
+    <div class="footer-bottom">
+        © 2026 TRẦN HOÀNG Bách| All Rights Reserved
+    </div>
+</footer>
+
+<script>
+    window.addEventListener('load', function() {
+    // Kiểm tra xem có lệnh hiện thông báo từ trang login không
+    if (localStorage.getItem("showLoginToast") === "true") {
+        const notify = document.getElementById('loginSuccessNotify');
+        
+        // Hiện thông báo sau 0.5s
+        setTimeout(() => {
+            notify.classList.add('active');
+        }, 500);
+
+        // Xóa lệnh để khi F5 không hiện lại nữa
+        localStorage.removeItem("showLoginToast");
+
+        // Tự ẩn sau 3.5 giây
+        setTimeout(() => {
+            notify.classList.remove('active');
+        }, 4000);
+    }
+});
+    document.addEventListener('click', (e) => {
+    for (let i = 0; i < 12; i++) {
+        const p = document.createElement('div');
+        p.className = 'firework-particle';
+        const colors = ['#FFD700', '#FF0000', '#FF4500', '#FFFFFF', '#FF69B4'];
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.left = e.clientX + 'px';
+        p.style.top = e.clientY + 'px';
+        
+        // Tạo hướng nổ ngẫu nhiên
+        const tx = (Math.random() - 0.5) * 200 + 'px';
+        const ty = (Math.random() - 0.5) * 200 + 'px';
+        p.style.setProperty('--tx', tx);
+        p.style.setProperty('--ty', ty);
+        
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 800);
+    }
+});
+function createRedEnvelope() {
+    const envelope = document.createElement('div');
+    envelope.innerHTML = '🧧'; // Icon bao lì xì
+    envelope.style.position = 'fixed';
+    envelope.style.top = '-50px';
+    envelope.style.left = Math.random() * 100 + 'vw';
+    envelope.style.fontSize = Math.random() * 20 + 10 + 'px';
+    envelope.style.zIndex = '9998';
+    envelope.style.userSelect = 'none';
+    envelope.style.cursor = 'default';
+    
+    const duration = Math.random() * 3 + 4 + 's';
+    envelope.style.animation = `fall ${duration} linear forwards`;
+    
+    document.body.appendChild(envelope);
+    setTimeout(() => envelope.remove(), 7000);
+}
+// Tạo bao lì xì mỗi 2 giây
+setInterval(createRedEnvelope, 2000);
+    
+    
+const canvas = document.getElementById("rainCanvas");
+const ctx = canvas.getContext("2d");
+
+function resize(){
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+}
+resize();
+window.addEventListener("resize",resize);
+
+let drops=[];
+for(let i=0;i<90;i++){
+    drops.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        length:Math.random()*20+10,
+        speed:Math.random()*4+4
+    });
+}
+
+function rain(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.strokeStyle="rgba(255,255,255,0.25)";
+    ctx.lineWidth=1;
+
+    drops.forEach(d=>{
+        ctx.beginPath();
+        ctx.moveTo(d.x,d.y);
+        ctx.lineTo(d.x-2,d.y+d.length);
+        ctx.stroke();
+
+        d.y+=d.speed;
+        d.x-=0.5;
+
+        if(d.y>canvas.height){
+            d.y=0;
+            d.x=Math.random()*canvas.width;
+        }
+    });
+
+    requestAnimationFrame(rain);
+}
+rain();
+document.querySelectorAll('.product').forEach(product => {
+  // Đổi từ checkout.html thành payment.html
+  const btn = product.querySelector('a[href="payment.html"]');
+
+  if(btn){
+    btn.addEventListener("click", function(){
+      const name = product.querySelector("h6")?.innerText || "";
+      const price = product.querySelector("p")?.innerText || "";
+
+      const data = {
+        name: name,
+        price: price
+      };
+
+      // Lưu vào localStorage
+      localStorage.setItem("currentProduct", JSON.stringify(data));
+    });
+  }
+});
+</script>
+<script>
+const toggleBtn = document.querySelector(".theme-toggle");
+const themeIcon = document.getElementById("themeIcon");
+
+// Load saved theme
+if(localStorage.getItem("theme")==="light"){
+    document.body.classList.add("light-mode");
+    themeIcon.classList.remove("bi-moon-fill");
+    themeIcon.classList.add("bi-sun-fill");
+}
+
+// Click toggle
+toggleBtn.addEventListener("click",()=>{
+    document.body.classList.toggle("light-mode");
+
+    if(document.body.classList.contains("light-mode")){
+        themeIcon.classList.remove("bi-moon-fill");
+        themeIcon.classList.add("bi-sun-fill");
+        localStorage.setItem("theme","light");
+    }else{
+        themeIcon.classList.remove("bi-sun-fill");
+        themeIcon.classList.add("bi-moon-fill");
+        localStorage.setItem("theme","dark");
+    }
+});
+
+</script>
+<script>
+function logoutUser(){
+    window.location.href = "index.html";
+}
+</script>
+<script>
+        const musicBtn = document.getElementById('music-btn');
+        const audio = document.getElementById('bg-music');
+
+        // Hàm xử lý bật/tắt
+        musicBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                musicBtn.classList.add('playing');
+                musicBtn.classList.remove('paused');
+            } else {
+                audio.pause();
+                musicBtn.classList.add('paused');
+                musicBtn.classList.remove('playing');
+            }
+        });
+
+        // Tự động phát khi người dùng tương tác lần đầu với trang web
+        document.addEventListener('click', () => {
+            if (audio.paused && !musicBtn.classList.contains('paused')) {
+                audio.play();
+            }
+        }, { once: true });
+    </script>
+    <script>
+document.querySelectorAll('.product').forEach(product => {
+
+  const btn = product.querySelector('a[href="checkout.html"]');
+
+  if(btn){
+    btn.addEventListener("click", function(){
+
+      const name = product.querySelector("h6")?.innerText || "";
+      const price = product.querySelector("p")?.innerText || "";
+
+      const data = {
+        name: name,
+        price: price
+      };
+
+      localStorage.setItem("currentProduct", JSON.stringify(data));
+
+    });
+  }
+
+});
+
+</script>
+<div id="loginSuccessNotify" class="cyber-toast-home">
+    <i class="fas fa-shield-alt"></i>
+    <span>TRUY CẬP HỆ THỐNG THÀNH CÔNG! CHÀO MỪNG TRỞ LẠI.</span>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Kiểm tra xem có phải vừa đăng nhập thành công từ index.html không
+    if (localStorage.getItem("showLoginToast") === "true") {
+        const overlay = document.getElementById('cyber-intro-overlay');
+        overlay.style.display = 'flex';
+
+        // Sau 3 giây (3000ms), bắt đầu hiệu ứng biến mất
+        setTimeout(() => {
+            overlay.classList.add('fade-out');
+            
+            // Xóa cờ đăng nhập để lần sau F5 trang không hiện lại nữa
+            localStorage.removeItem("showLoginToast");
+            
+            // Sau khi hiệu ứng fade-out kết thúc (500ms), xóa hẳn overlay
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 500);
+        }, 3000);
+    }
+});
+</script>
+</body>
+</html>
+
+</body>
+</html><div class="row g-4" id="productList"></div>

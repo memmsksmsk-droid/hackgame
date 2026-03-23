@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán QR - TRẦN BÁCH</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        
+        /* Nền lưới điện Cyber */
+        body { 
+            min-height: 100vh; 
+            background-color: #020406;
+            background-image: 
+                linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            color: white; 
+            font-family: 'Rajdhani', sans-serif;
+            overflow: hidden; 
+        }
+        
+        canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        
+        /* Bảng điều khiển trung tâm */
+        .container { 
+            width: 450px; 
+            background: rgba(2, 5, 10, 0.95);
+            padding: 40px 30px; 
+            border: 2px solid #00f2ff;
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.2), inset 0 0 20px rgba(0, 242, 255, 0.1);
+            clip-path: polygon(0 0, 100% 0, 100% 92%, 92% 100%, 0 100%);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Tiêu đề */
+        h2 { 
+            text-align: center; 
+            margin-bottom: 25px; 
+            color: #00f2ff; 
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
+            font-size: 22px;
+        }
+
+        /* Hiển thị số tiền & Ghi chú */
+        .amount { 
+            text-align: center; 
+            font-size: 24px; 
+            font-weight: 700; 
+            margin: 10px 0; 
+            color: #ff00c8; 
+            text-shadow: 0 0 15px rgba(255, 0, 200, 0.6); 
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .note { 
+            text-align: center; 
+            font-size: 16px; 
+            margin-bottom: 20px; 
+            padding: 12px; 
+            background: rgba(0, 242, 255, 0.05); 
+            border-left: 3px solid #ff00c8;
+            color: #a0faff;
+            letter-spacing: 1px;
+        }
+
+        /* QR Code phát sáng */
+        .qr { text-align: center; margin: 20px 0; }
+        .qr img { 
+            width: 220px; 
+            border: 2px solid #00f2ff;
+            padding: 8px;
+            background: #000;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3); 
+            transition: 0.3s;
+        }
+        .qr img:hover {
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* Input Cyber */
+        input { 
+            width: 100%; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border: 1px solid rgba(0, 242, 255, 0.3); 
+            background: rgba(0, 242, 255, 0.05); 
+            color: #00f2ff; 
+            font-size: 16px;
+            font-family: 'Rajdhani', sans-serif;
+            outline: none; 
+            transition: 0.3s; 
+        }
+        input::placeholder { color: rgba(0, 242, 255, 0.4); text-transform: uppercase; font-size: 14px; }
+        input:focus {
+            border-color: #ff00c8;
+            box-shadow: 0 0 15px rgba(255, 0, 200, 0.3);
+            background: rgba(255, 0, 200, 0.05);
+        }
+
+        /* Nút bấm Neon */
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            margin-top: 20px; 
+            border: 1px solid #ff00c8; 
+            background: transparent; 
+            color: #ff00c8; 
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold; 
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer; 
+            transition: 0.3s; 
+            clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
+        }
+        button:hover { 
+            background: #ff00c8;
+            color: #fff;
+            box-shadow: 0 0 25px #ff00c8; 
+            transform: scale(1.02); 
+        }
+
+        /* Hiệu ứng điện chạy 2 mép màn hình */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            z-index: 9999;
+            background: #00f2ff;
+            box-shadow: 0 0 15px #00f2ff;
+        }
+        body::before { left: 0; }
+        body::after { right: 0; }
+    </style>
+</head>
+<body>
+
+<canvas id="rain"></canvas>
+
+<div class="container">
+    <h2><i class="fas fa-qrcode"></i> CỔNG THANH TOÁN</h2>
+    
+    <div id="displayAmount" class="amount">Đang tải giá...</div>
+    <div id="displayNote" class="note">Đang tải sản phẩm...</div>
+
+    <div class="qr">
+        <img src="z7575484411348_8b3c79d9f038f6601e0b315624371c1c.jpg" alt="QR Thanh Toán">
+    </div>
+
+    <input type="text" id="payerName" placeholder="[NHẬP TÊN NGƯỜI CHUYỂN KHOẢN]">
+    <input type="text" id="bankName" placeholder="[NHẬP TÊN NGÂN HÀNG]">
+    
+    <button onclick="confirmPayment()">XÁC NHẬN ĐÃ CHUYỂN KHOẢN</button>
+</div>
+
+<script>
+    // 1. Lấy dữ liệu từ home.html truyền sang
+    const product = JSON.parse(localStorage.getItem("currentProduct"));
+
+    if(product) {
+        document.getElementById("displayAmount").innerText = "SỐ TIỀN: " + product.price;
+        document.getElementById("displayNote").innerText = "NỘI DUNG: MUA " + product.name;
+    } else {
+        alert("Không tìm thấy thông tin sản phẩm!");
+        window.location.href = "home.html";
+    }
+
+    // 2. Xử lý khi bấm xác nhận
+    function confirmPayment() {
+        const payer = document.getElementById("payerName").value.trim();
+        const bank = document.getElementById("bankName").value.trim();
+
+        if(!payer || !bank) {
+            alert("HỆ THỐNG YÊU CẦU: Vui lòng nhập tên và ngân hàng!");
+            return;
+        }
+
+        // Lưu thông tin người mua vào object sản phẩm
+        product.payerName = payer;
+        product.bankName = bank;
+        product.date = new Date().toLocaleString('vi-VN');
+        
+        localStorage.setItem("currentProduct", JSON.stringify(product));
+        
+        alert("Dữ liệu đã được mã hóa và gửi đi! Đang tạo hóa đơn...");
+        window.location.href = "success.html";
+    }
+
+    /* Hiệu ứng mưa (Giữ nguyên code của bạn, chỉ đổi màu sang xanh Cyan cho hợp tone) */
+    const canvas = document.getElementById("rain");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    let drops=[];
+    for(let i=0;i<150;i++){ drops.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,l:15,s:5}); }
+    function rain(){
+        ctx.clearRect(0,0,canvas.width,canvas.height); 
+        ctx.strokeStyle="rgba(0, 242, 255, 0.3)"; /* Màu mưa Cyan */
+        drops.forEach(d=>{ ctx.beginPath(); ctx.moveTo(d.x,d.y); ctx.lineTo(d.x-2,d.y+d.l); ctx.stroke(); d.y+=d.s; if(d.y>canvas.height)d.y=0; });
+        requestAnimationFrame(rain);
+    }
+    rain();
+</script>
+</body>
+</html>
