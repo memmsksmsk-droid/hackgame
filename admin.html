@@ -4,12 +4,33 @@
     <table>...</table>
 </div>
 <head>
+    <div class="nav-item" onclick="showTab('cards', this)">
+    <i class="fa-solid fa-credit-card"></i> NẠP THẺ <span id="pendingBadge" style="background:red; border-radius:50%; padding:2px 6px; font-size:10px; display:none;">0</span>
+</div>
+<div id="tab-cards" class="tab-pane" style="display:none;">
+    <h3 class="cyber-glitch">CARD MANAGEMENT SYSTEM</h3>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Khách hàng</th>
+                    <th>Loại thẻ</th>
+                    <th>Chi tiết (Seri/Mã)</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="adminCardList"></tbody>
+        </table>
+    </div>
+</div>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRẦN Bách | MULTICOLOR COMMANDER</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
+        
         /* Cho phép cuộn ngang trên điện thoại */
 .table-responsive {
     width: 100%;
@@ -19,6 +40,7 @@
 }
 
 /* Thu nhỏ font chữ bảng trên mobile */
+
 @media (max-width: 768px) {
     table {
         font-size: 12px;
@@ -488,6 +510,158 @@
         t.innerText = msg; t.style.display = 'block';
         setTimeout(() => { t.style.display = 'none'; }, 3000);
     }
+    // Hàm hiển thị danh sách thẻ nạp trong trang Admin
+function renderAdminCards() {
+    const cards = JSON.parse(localStorage.getItem("cardRequests")) || [];
+    const list = document.getElementById("adminCardList");
+    list.innerHTML = "";
+    
+    let pendingCount = 0;
+
+    cards.slice().reverse().forEach((c, index) => {
+        const realIdx = cards.length - 1 - index;
+        if(c.status === "Chờ duyệt") pendingCount++;
+
+        list.innerHTML += `
+            <tr>
+                <td>${c.user}</td>
+                <td><span class="status-badge" style="background:#9333ea">${c.type}</span></td>
+                <td><small>S: ${c.serial}<br>P: ${c.pin}</small></td>
+                <td><b style="color:${c.status === 'Chờ duyệt' ? '#ffcc00' : (c.status === 'Thành công' ? '#00ff00' : '#ff4444')}">${c.status}</b></td>
+                <td>
+                    ${c.status === 'Chờ duyệt' ? `
+                        <button onclick="handleCard(${realIdx}, true)" class="btn-sm btn-success">Duyệt</button>
+                        <button onclick="handleCard(${realIdx}, false)" class="btn-sm btn-danger">Hủy</button>
+                    ` : '<span style="color:#555">Đã xử lý</span>'}
+                </td>
+            </tr>
+        `;
+    });
+
+    const badge = document.getElementById("pendingBadge");
+    if(pendingCount > 0) {
+        badge.innerText = pendingCount;
+        badge.style.display = "inline";
+    } else {
+        badge.style.display = "none";
+    }
+}
+
+function handleCard(idx, isSuccess) {
+    let cards = JSON.parse(localStorage.getItem("cardRequests")) || [];
+    let card = cards[idx];
+
+    if (isSuccess) {
+        let amount = prompt(`Thẻ ${card.type}. Nhập số tiền thực nhận để cộng cho ${card.user}:`, "50000");
+        if (amount !== null && amount !== "") {
+            card.status = "Thành công";
+            // Cộng tiền vào danh sách users
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            let userIdx = users.findIndex(u => u.email === card.user);
+            
+            if (userIdx !== -1) {
+                users[userIdx].balance = (users[userIdx].balance || 0) + parseInt(amount);
+                localStorage.setItem("users", JSON.stringify(users));
+                
+                // Cập nhật session nếu admin chính là người nạp (test)
+                let curr = JSON.parse(localStorage.getItem("currentUser"));
+                if(curr && curr.email === card.user) {
+                    curr.balance += parseInt(amount);
+                    localStorage.setItem("currentUser", JSON.stringify(curr));
+                }
+                
+                alert(`Đã cộng ${parseInt(amount).toLocaleString()}đ cho ${card.user}`);
+            }
+        } else return;
+    } else {
+        if(confirm("Bạn có chắc muốn hủy thẻ này?")) {
+            card.status = "Thất bại";
+        } else return;
+    }
+
+    localStorage.setItem("cardRequests", JSON.stringify(cards));
+    renderAdminCards();
+    if(typeof addLog === 'function') addLog(`Admin xử lý thẻ: ${card.user} (${card.status})`);
+}
+
+// Gọi hàm render khi mở tab cards
+// Sửa lại hàm showTab hiện tại của bạn để gọi thêm renderAdminCards()
+const originalShowTab = showTab;
+showTab = function(id, el) {
+    originalShowTab(id, el);
+    if(id === 'cards') renderAdminCards();
+}
+function handleCard(idx, isSuccess) {
+    let cards = JSON.parse(localStorage.getItem("cardRequests")) || [];
+    let card = cards[idx];
+
+    if (isSuccess) {
+        // Tự động gợi ý số tiền mà người dùng đã chọn khi nạp
+        let amount = prompt(`Người dùng khai báo: ${parseInt(card.amount).toLocaleString()}đ. Nhập số tiền thực cộng:`, card.amount);
+        
+        if (amount) {
+            card.status = "Thành công";
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            let userIdx = users.findIndex(u => u.email === card.user);
+            
+            if (userIdx !== -1) {
+                users[userIdx].balance = (users[userIdx].balance || 0) + parseInt(amount);
+                localStorage.setItem("users", JSON.stringify(users));
+                alert("Đã cộng " + parseInt(amount).toLocaleString() + "đ vào tài khoản " + card.user);
+            }
+        } else return;
+    } else {
+        card.status = "Thất bại";
+    }
+
+    localStorage.setItem("cardRequests", JSON.stringify(cards));
+    renderAdminCards(); // Load lại bảng admin
+}
+function handleCard(idx, isSuccess) {
+    let cards = JSON.parse(localStorage.getItem("cardRequests")) || [];
+    let card = cards[idx];
+
+    if (isSuccess) {
+        // Lấy số tiền admin nhập vào
+        let amountStr = prompt(`Thẻ ${card.type} - Mệnh giá gốc: ${parseInt(card.amount).toLocaleString()}đ\nNhập số tiền thực cộng:`, card.amount);
+        
+        if (amountStr !== null && amountStr !== "") {
+            let amount = Number(amountStr); // Chuyển sang kiểu số
+            card.status = "Thành công";
+
+            // 1. Cập nhật vào danh sách Users (Database)
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            let userIdx = users.findIndex(u => u.email === card.user);
+            
+            if (userIdx !== -1) {
+                // Đảm bảo balance cũ là số trước khi cộng
+                let oldBalance = Number(users[userIdx].balance || 0);
+                users[userIdx].balance = oldBalance + amount;
+                localStorage.setItem("users", JSON.stringify(users));
+
+                // 2. Cập nhật vào Phiên đăng nhập (Nếu người nạp chính là admin hoặc đang cùng trình duyệt)
+                let curr = JSON.parse(localStorage.getItem("currentUser"));
+                if(curr && curr.email === card.user) {
+                    curr.balance = Number(curr.balance || 0) + amount;
+                    localStorage.setItem("currentUser", JSON.stringify(curr));
+                }
+                
+                alert(`✅ Đã cộng ${amount.toLocaleString()}đ cho tài khoản: ${card.user}`);
+            } else {
+                alert("❌ Không tìm thấy người dùng này trong hệ thống!");
+            }
+        } else return;
+    } else {
+        if(confirm("Xác nhận HỦY thẻ này?")) {
+            card.status = "Thất bại";
+        } else return;
+    }
+
+    // Lưu lại trạng thái thẻ (để trang napthe.html hiện "Thành công")
+    localStorage.setItem("cardRequests", JSON.stringify(cards));
+    renderAdminCards(); 
+}
 </script>
+
 </body>
 </html>

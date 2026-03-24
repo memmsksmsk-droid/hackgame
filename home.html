@@ -27,6 +27,7 @@
 }
 
 /* Nhóm các nút (Nạp thẻ, Admin, Profile...) */
+
 .header-buttons {
     display: flex;
     gap: 8px;
@@ -609,7 +610,38 @@ footer{
         <source src="nhactranghome.mp3" type="audio/mpeg">
     </audio>
 </div>
+<a href="napthe.html" class="cyber-btn-nav">
+    <div class="cyber-btn__inner">
+        <div class="cyber-btn__glitch"></div>
+        <i class="fa-solid fa-bolt"></i> NẠP THẺ
+    </div>
+</a>
 
+<style>
+.cyber-btn-nav {
+    text-decoration: none;
+    position: relative;
+    padding: 1px;
+    background: linear-gradient(90deg, #00f5ff, #ff00ff);
+    border-radius: 4px;
+    display: inline-block;
+}
+.cyber-btn__inner {
+    background: #000;
+    color: #fff;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.cyber-btn-nav:hover {
+    box-shadow: 0 0 15px #00f5ff;
+    transform: translateY(-2px);
+}
+</style>
 <a href="bach.html" style="
 margin-left:15px;
 padding:8px 18px;
@@ -621,6 +653,7 @@ text-decoration:none;
 box-shadow:0 0 15px rgba(255,0,100,0.7);
 transition:0.3s;
 ">
+
 💎 Giúp Đỡ Admin
 </a>
 
@@ -644,6 +677,7 @@ transition:0.3s;
 </div>
 <canvas id="rainCanvas"></canvas>
 </nav>
+
 <!-- HERO -->
 <section class="hero">
 <div class="hero-content">
@@ -686,6 +720,9 @@ width:100%;
 <h6>FLourite gốc 30 ngày </h6>
 <p class="text-danger fw-bold">350.000đ</p>
 <a href="payment.html" class="btn btn-dark">Mua hàng </a>
+<button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
 </div>
 </div>
 </div>
@@ -698,6 +735,9 @@ width:100%;
 <h6>FLourite gốc 15 ngày </h6>
 <p class="text-danger fw-bold">220.000đ</p>
 <a href="payment.html" class="btn btn-dark">Mua hàng</a>
+<button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
 </div>
 </div>
 </div>
@@ -709,6 +749,9 @@ width:100%;
 <h6>Migul ios tháng </h6>
 <p class="text-danger fw-bold">220.000đ</p>
 <a href="payment.html" class="btn btn-dark">mua hàng</a>
+<button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
 </div>
 </div>
 </div>
@@ -720,6 +763,9 @@ width:100%;
 <h6>Migul ios tuần </h6>
 <p class="text-danger fw-bold">150.000đ</p>
 <a href="payment.html" class="btn btn-dark">mua hàng</a>
+<button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
 </div>
 </div>
 </div>
@@ -737,6 +783,9 @@ width:100%;
                         <h6 class="text-white">FLourite adr 15 ngày</h6>
                         <p class="text-danger fw-bold">80.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -748,6 +797,9 @@ width:100%;
                         <h6 class="text-white">FLourite adr 30 ngày</h6>
                         <p class="text-danger fw-bold">150.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -759,6 +811,9 @@ width:100%;
                         <h6 class="text-white">brutal pc 15 ngày</h6>
                         <p class="text-danger fw-bold">100.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -770,6 +825,9 @@ width:100%;
                         <h6 class="text-white">brutal pc 30 ngày </h6>
                         <p class="text-danger fw-bold">150.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -787,6 +845,9 @@ width:100%;
                         <h6 class="text-white">dracula pro 15 ngày </h6>
                         <p class="text-danger fw-bold">150.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -798,6 +859,9 @@ width:100%;
                         <h6 class="text-white">dracula pro 30 ngày </h6>
                         <p class="text-danger fw-bold">250.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -809,6 +873,9 @@ width:100%;
                         <h6 class="text-white">dracula egine 15 ngày</h6>
                         <p class="text-danger fw-bold">130.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -820,6 +887,9 @@ width:100%;
                         <h6 class="text-white">dracula egine 30 ngày  </h6>
                         <p class="text-danger fw-bold">220.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -837,6 +907,9 @@ width:100%;
                         <h6 class="text-white">aimbot prx v1 15 ngày </h6>
                         <p class="text-danger fw-bold">70.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -848,6 +921,9 @@ width:100%;
                         <h6 class="text-white">aimbot prx v1 30 ngày </h6>
                         <p class="text-danger fw-bold">120.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -859,6 +935,9 @@ width:100%;
                         <h6 class="text-white">aimbot prx v2 15 ngày</h6>
                         <p class="text-danger fw-bold">80.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -870,6 +949,9 @@ width:100%;
                         <h6 class="text-white">aimbot prx v2 30 ngày  </h6>
                         <p class="text-danger fw-bold">140.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -887,6 +969,9 @@ width:100%;
                         <h6 class="text-white">ios viet 15 ngày </h6>
                         <p class="text-danger fw-bold">70.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -898,6 +983,9 @@ width:100%;
                         <h6 class="text-white">ios viet 30 ngày </h6>
                         <p class="text-danger fw-bold">150.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -909,6 +997,9 @@ width:100%;
                         <h6 class="text-white">sonic mod 15 ngày</h6>
                         <p class="text-danger fw-bold">120.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -920,6 +1011,9 @@ width:100%;
                         <h6 class="text-white">sonic mod 30 ngày  </h6>
                         <p class="text-danger fw-bold">180.000đ</p>
                         <a href="payment.html" class="btn btn-dark w-100">Mua hàng</a>
+                        <button onclick="buyWithBalance('Migul ios tháng', 220000)" class="btn-cyber-wallet">
+    <i class="fa-solid fa-wallet"></i> Thẻ cào
+</button>
                     </div>
                 </div>
             </div>
@@ -932,6 +1026,28 @@ width:100%;
 
 <!-- JS -->
 <style>
+    .btn-cyber-wallet {
+    background: #000;
+    color: #00f5ff;
+    border: 1px solid #00f5ff;
+    padding: 7px 15px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 5px #00f5ff;
+    border-radius: 4px;
+    margin-top: 5px; /* Khoảng cách với nút trên */
+    display: inline-block;
+}
+
+.btn-cyber-wallet:hover {
+    background: #00f5ff;
+    color: #000;
+    box-shadow: 0 0 20px #00f5ff;
+    transform: translateY(-2px);
+}
     .status-container {
         max-width: 1000px;
         margin: 20px auto;
@@ -1061,6 +1177,56 @@ width:100%;
     </div>
 </div>
 <script>
+    function buyWithBalance(productName, price) {
+    // 1. Lấy dữ liệu người dùng
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    
+    if (!currentUser) {
+        alert("Vui lòng đăng nhập để thanh toán bằng số dư!");
+        return;
+    }
+
+    let balance = Number(currentUser.balance || 0);
+
+    // 2. Kiểm tra điều kiện số dư
+    if (balance >= price) {
+        if (confirm(`SỬ DỤNG SỐ DƯ: ${balance.toLocaleString()}đ\nĐể mua: ${productName}?\nSố tiền sẽ trừ: ${price.toLocaleString()}đ`)) {
+            
+            let newBalance = balance - price;
+
+            // 3. Cập nhật phiên đăng nhập (currentUser)
+            currentUser.balance = newBalance;
+            localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+            // 4. Cập nhật danh sách tổng (users) để lưu vĩnh viễn
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            let uIdx = users.findIndex(u => u.email === currentUser.email);
+            if (uIdx !== -1) {
+                users[uIdx].balance = newBalance;
+                localStorage.setItem("users", JSON.stringify(users));
+            }
+
+            // 5. Ghi nhận đơn hàng về trang admin.html
+            let orders = JSON.parse(localStorage.getItem("orders")) || [];
+            orders.push({
+                user: currentUser.email,
+                product: productName,
+                price: price,
+                method: "Số dư tài khoản",
+                status: "Hoàn tất",
+                time: new Date().toLocaleString()
+            });
+            localStorage.setItem("orders", JSON.stringify(orders));
+
+            // 6. Thành công
+            window.location.href = "success.html";
+        }
+    } else {
+        // 7. Thất bại (Không đủ tiền)
+        alert(`GIAO DỊCH THẤT BẠI!\nSố dư: ${balance.toLocaleString()}đ\nBạn còn thiếu: ${(price - balance).toLocaleString()}đ\nVui lòng nạp thêm!`);
+        window.location.href = "napthe.html";
+    }
+}
     function closeMegaBox() {
     document.getElementById('adminMegaBox').classList.remove('active');
     document.getElementById('megaOverlay').classList.remove('active');
@@ -1575,6 +1741,50 @@ p.style.display="none";
 </style>
 
 <footer class="footer">
+    <div style="text-align: center; padding: 40px 0; background: #050505;">
+    <a href="huong-dan.html" class="cyber-btn-install">
+        <span class="glitch-text">CÁCH CÀI HACK</span>
+        <span class="btn-glow"></span>
+    </a>
+</div>
+
+<style>
+.cyber-btn-install {
+    position: relative;
+    padding: 15px 40px;
+    background: transparent;
+    color: #00f2ff;
+    font-weight: bold;
+    text-decoration: none;
+    border: 2px solid #00f2ff;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-family: 'Segoe UI', sans-serif;
+    transition: 0.3s;
+    overflow: hidden;
+    display: inline-block;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+}
+
+.cyber-btn-install:hover {
+    background: #00f2ff;
+    color: #000;
+    box-shadow: 0 0 30px #00f2ff;
+    transform: scale(1.05);
+}
+
+.btn-glow {
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: 0.5s;
+}
+
+.cyber-btn-install:hover .btn-glow {
+    left: 100%;
+}
+</style>
     
     <div class="footer-container">
 <!-- NÚT ADMIN QUANTUM RGB - PHIÊN BẢN ĐẦU TƯ -->
@@ -1736,6 +1946,7 @@ p.style.display="none";
     <div class="footer-bottom">
         © 2026 TRẦN HOÀNG Bách| All Rights Reserved
     </div>
+    
 </footer>
 
 <script>
@@ -1941,10 +2152,6 @@ document.querySelectorAll('.product').forEach(product => {
 });
 
 </script>
-<div id="loginSuccessNotify" class="cyber-toast-home">
-    <i class="fas fa-shield-alt"></i>
-    <span>TRUY CẬP HỆ THỐNG THÀNH CÔNG! CHÀO MỪNG TRỞ LẠI.</span>
-</div>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     // Kiểm tra xem có phải vừa đăng nhập thành công từ index.html không

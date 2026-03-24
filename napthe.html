@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIA DIỄN - NẠP THẺ CÀO PRO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        :root { --neon: #00f5ff; --pink: #ff00ff; --bg: #050505; }
+        
+        body {
+            background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif;
+            margin: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Hiệu ứng nền Cyber */
+        body::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,245,255,0.05) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(0,245,255,0.05) 1px, transparent 1px);
+            background-size: 30px 30px; z-index: -1;
+        }
+
+        .cyber-card {
+            width: 95%; max-width: 480px; background: rgba(10, 10, 10, 0.9);
+            border: 2px solid var(--neon); border-radius: 15px; padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.2), inset 0 0 15px rgba(0, 245, 255, 0.1);
+            position: relative; backdrop-filter: blur(10px);
+        }
+
+        .cyber-card::after {
+            content: "SECURE CONNECTION"; position: absolute; top: -12px; left: 20px;
+            background: var(--bg); padding: 0 10px; font-family: 'Orbitron';
+            font-size: 10px; color: var(--neon); letter-spacing: 2px;
+        }
+
+        h2 { font-family: 'Orbitron'; text-align: center; color: var(--neon); text-shadow: 0 0 10px var(--neon); margin-top: 0; }
+
+        .balance-info {
+            background: rgba(255,255,255,0.03); border-left: 4px solid var(--pink);
+            padding: 15px; border-radius: 5px; margin-bottom: 25px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .balance-info b { color: #00ff00; font-family: 'Orbitron'; font-size: 1.2rem; }
+
+        .form-group { margin-bottom: 15px; position: relative; }
+        .form-group i { position: absolute; left: 15px; top: 15px; color: var(--neon); }
+
+        select, input {
+            width: 100%; padding: 12px 12px 12px 45px; background: #000;
+            border: 1px solid #222; color: white; border-radius: 5px; outline: none;
+            transition: 0.3s; font-size: 14px; box-sizing: border-box;
+        }
+        select:focus, input:focus { border-color: var(--neon); box-shadow: 0 0 10px rgba(0, 245, 255, 0.3); }
+
+        .btn-nạp {
+            width: 100%; padding: 16px; background: linear-gradient(45deg, var(--neon), var(--pink));
+            border: none; color: white; font-family: 'Orbitron'; font-weight: 900;
+            cursor: pointer; border-radius: 5px; transition: 0.3s; margin-top: 10px;
+        }
+        .btn-nạp:hover { letter-spacing: 2px; box-shadow: 0 0 20px var(--pink); transform: scale(1.02); }
+
+        .history { margin-top: 30px; border-top: 1px solid #222; padding-top: 20px; }
+        .history-title { font-family: 'Orbitron'; font-size: 12px; color: var(--neon); margin-bottom: 10px; }
+        .history-table { width: 100%; font-size: 12px; border-collapse: collapse; }
+        .history-table th { text-align: left; color: #666; padding-bottom: 8px; }
+        .history-table td { padding: 8px 0; border-bottom: 1px solid #111; }
+        
+        .status-wait { color: #ffcc00; }
+        .status-done { color: #00ff00; text-shadow: 0 0 5px #00ff00; }
+        .status-fail { color: #ff4444; }
+    </style>
+</head>
+<body>
+
+<div class="cyber-card">
+    <h2>RECHARGE VIP</h2>
+    
+    <div class="balance-info">
+        <span>SỐ DƯ TÀI KHOẢN:</span>
+        <b id="displayBalance">0đ</b>
+    </div>
+
+    <div class="form-group">
+        <i class="fa-solid fa-building-columns"></i>
+        <select id="cardType">
+            <option value="">-- Chọn nhà mạng --</option>
+            <option value="VIETTEL">Viettel</option>
+            <option value="MOBIFONE">Mobifone</option>
+            <option value="VINAPHONE">Vinaphone</option>
+            <option value="ZING">Thẻ Zing</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <i class="fa-solid fa-money-bill-wave"></i>
+        <select id="cardAmount">
+            <option value="">-- Chọn mệnh giá --</option>
+            <option value="10000">10.000đ</option>
+            <option value="20000">20.000đ</option>
+            <option value="50000">50.000đ</option>
+            <option value="100000">100.000đ</option>
+            <option value="200000">200.000đ</option>
+            <option value="500000">500.000đ</option>
+            <option value="1000000">1.000.000đ</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <i class="fa-solid fa-barcode"></i>
+        <input type="text" id="serial" placeholder="Số Seri thẻ...">
+    </div>
+
+    <div class="form-group">
+        <i class="fa-solid fa-key"></i>
+        <input type="text" id="pin" placeholder="Mã số thẻ (PIN)...">
+    </div>
+
+    <button class="btn-nạp" onclick="sendCard()">
+        XÁC NHẬN GỬI THẺ <i class="fa-solid fa-arrow-right"></i>
+    </button>
+
+    <div class="history">
+        <div class="history-title">GIAO DỊCH GẦN ĐÂY</div>
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>LOẠI</th>
+                    <th>MỆNH GIÁ</th>
+                    <th>TRẠNG THÁI</th>
+                </tr>
+            </thead>
+            <tbody id="historyBody"></tbody>
+        </table>
+    </div>
+
+    <center style="margin-top: 20px;">
+        <a href="home.html" style="color: #444; text-decoration: none; font-size: 11px;">HỦY GIAO DỊCH & QUAY LẠI</a>
+    </center>
+</div>
+
+<script>
+    let user = JSON.parse(localStorage.getItem("currentUser")) || { email: "Guest", balance: 0 };
+
+    function loadData() {
+        document.getElementById("displayBalance").innerText = (user.balance || 0).toLocaleString() + "đ";
+        const cards = JSON.parse(localStorage.getItem("cardRequests")) || [];
+        const myCards = cards.filter(c => c.user === user.email).reverse();
+        
+        let html = "";
+        myCards.forEach(c => {
+            let statusStyle = c.status === "Chờ duyệt" ? "status-wait" : (c.status === "Thành công" ? "status-done" : "status-fail");
+            html += `<tr>
+                <td>${c.type}</td>
+                <td>${parseInt(c.amount).toLocaleString()}đ</td>
+                <td class="${statusStyle}">${c.status}</td>
+            </tr>`;
+        });
+        document.getElementById("historyBody").innerHTML = html || "<tr><td colspan='3'>Chưa có dữ liệu</td></tr>";
+    }
+
+    function sendCard() {
+        const type = document.getElementById("cardType").value;
+        const amount = document.getElementById("cardAmount").value;
+        const serial = document.getElementById("serial").value;
+        const pin = document.getElementById("pin").value;
+
+        if(!type || !amount || !serial || !pin) return alert("Vui lòng nhập đầy đủ 4 thông tin!");
+
+        const newReq = {
+            id: Date.now(),
+            user: user.email,
+            type: type,
+            amount: amount,
+            serial: serial,
+            pin: pin,
+            status: "Chờ duyệt",
+            time: new Date().toLocaleString()
+        };
+
+        const allReqs = JSON.parse(localStorage.getItem("cardRequests")) || [];
+        allReqs.push(newReq);
+        localStorage.setItem("cardRequests", JSON.stringify(allReqs));
+
+        alert("Hệ thống đã nhận thẻ! Vui lòng chờ 1-3 phút để kiểm tra.");
+        document.getElementById("serial").value = "";
+        document.getElementById("pin").value = "";
+        loadData();
+    }
+
+    loadData();
+    function loadData() {
+    // Luôn lấy lại currentUser mới nhất từ kho lưu trữ
+    let updatedUser = JSON.parse(localStorage.getItem("currentUser")) || { email: "Guest", balance: 0 };
+    
+    // Hiển thị số dư
+    document.getElementById("displayBalance").innerText = Number(updatedUser.balance).toLocaleString() + "đ";
+
+    // Hiển thị lịch sử thẻ
+    const cards = JSON.parse(localStorage.getItem("cardRequests")) || [];
+    const myCards = cards.filter(c => c.user === updatedUser.email).reverse();
+    
+    let html = "";
+    myCards.forEach(c => {
+        let statusStyle = c.status === "Chờ duyệt" ? "status-wait" : (c.status === "Thành công" ? "status-done" : "status-fail");
+        html += `<tr>
+            <td>${c.type}</td>
+            <td>${Number(c.amount).toLocaleString()}đ</td>
+            <td class="${statusStyle}">${c.status}</td>
+        </tr>`;
+    });
+    document.getElementById("historyBody").innerHTML = html || "<tr><td colspan='3'>Chưa có dữ liệu</td></tr>";
+}
+
+// Cho nó tự động load lại mỗi 5 giây để người dùng thấy tiền nhảy mà không cần F5
+setInterval(loadData, 5000);
+</script>
+</body>
+</html>

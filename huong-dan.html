@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TERMINAL ACCESS - TRẦN BÁCH COMMANDER</title>
+    <style>
+        :root {
+            --neon-blue: #00f2ff;
+            --neon-red: #ff0055;
+            --bg-dark: #0a0a0a;
+            --border-color: #1a1a1a;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #e0e0e0;
+            font-family: 'Consolas', 'Courier New', monospace;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            /* Hiệu ứng Scanline nhẹ */
+            background: linear-gradient(rgba(10,10,10,0.9), rgba(10,10,10,0.9)),
+                        url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+        }
+
+        .main-wrapper {
+            max-width: 800px;
+            width: 100%;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            background: #0d0d0d;
+            border: 1px solid #222;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* Góc trang trí Hacker không gây lỗi tràn */
+        .container::before {
+            content: "";
+            position: absolute;
+            top: -2px; left: -2px;
+            width: 20px; height: 20px;
+            border-top: 3px solid var(--neon-blue);
+            border-left: 3px solid var(--neon-blue);
+        }
+
+        .container::after {
+            content: "";
+            position: absolute;
+            bottom: -2px; right: -2px;
+            width: 20px; height: 20px;
+            border-bottom: 3px solid var(--neon-blue);
+            border-right: 3px solid var(--neon-blue);
+        }
+
+        /* Header Admin */
+        .header {
+            border-bottom: 1px dashed #333;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-info { display: flex; align-items: center; }
+
+        .admin-name {
+            color: var(--neon-blue);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+        }
+
+        .v-tick {
+            width: 16px; height: 16px;
+            background: #1877f2;
+            border-radius: 50%;
+            margin-left: 8px;
+            display: inline-flex;
+            align-items: center; justify-content: center;
+            font-size: 10px; color: white;
+        }
+
+        /* Video chống tràn tuyệt đối */
+        .video-box {
+            width: 100%;
+            background: #000;
+            border: 1px solid #333;
+            margin: 20px 0;
+            position: relative;
+            line-height: 0; /* Khử khoảng trắng thừa của video */
+        }
+
+        video {
+            width: 100%;
+            max-width: 100%;
+            height: auto; /* Tự động điều chỉnh theo chiều rộng */
+            display: block;
+        }
+
+        /* Trang trí khung video */
+        .video-label {
+            position: absolute;
+            top: 5px; right: 10px;
+            font-size: 10px;
+            color: var(--neon-red);
+            text-shadow: 0 0 5px var(--neon-red);
+            z-index: 10;
+        }
+
+        /* Hướng dẫn Phase */
+        .steps-container {
+            background: rgba(255,255,255,0.02);
+            padding: 15px;
+            border: 1px solid #1a1a1a;
+        }
+
+        .phase-item {
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 2px solid #333;
+        }
+
+        .phase-item:hover {
+            border-left: 2px solid var(--neon-blue);
+            background: rgba(0,242,255,0.03);
+        }
+
+        .phase-title {
+            color: var(--neon-blue);
+            font-size: 0.8rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .phase-desc {
+            font-size: 0.9rem;
+            color: #ccc;
+            line-height: 1.4;
+        }
+
+        code {
+            color: var(--neon-red);
+            background: #1a1a1a;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        /* Footer Info */
+        .footer-status {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #444;
+            text-transform: uppercase;
+        }
+
+        /* Hiệu ứng nhấp nháy cho text quan trọng */
+        .blink { animation: blinker 1s linear infinite; }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            .admin-name { font-size: 0.9rem; }
+            .footer-status { flex-direction: column; gap: 5px; }
+        }
+        /* Khung bọc bên ngoài để giới hạn kích thước */
+.video-wrapper {
+    max-width: 700px; /* Giới hạn độ rộng tối đa để không bị quá to */
+    margin: 20px auto; /* Căn giữa khung video */
+    padding: 10px;
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+}
+
+/* Khung tỉ lệ 16:9 chuẩn Cinema */
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* Tỉ lệ 16:9 */
+    height: 0;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #000;
+}
+
+/* Ép video/iframe luôn nằm gọn trong khung */
+.video-container video, 
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    object-fit: contain; /* Đảm bảo video không bị méo */
+}
+.back-home-wrapper {
+    text-align: center;
+    margin-top: 30px;
+    padding-bottom: 20px;
+}
+
+.btn-home {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 25px;
+    background: transparent;
+    color: var(--neon-blue);
+    border: 1px solid var(--neon-blue);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+}
+
+/* Hiệu ứng khi di chuột vào */
+.btn-home:hover {
+    background: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 20px var(--neon-blue);
+    cursor: pointer;
+}
+
+.btn-home i {
+    margin-right: 10px;
+}
+
+/* Trang trí thêm 2 vạch nhỏ ở góc nút cho đúng chất TRẦN BÁCH COMMANDER */
+.btn-home::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 5px; height: 5px;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+}
+
+.btn-home::after {
+    content: "";
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 5px; height: 5px;
+    border-bottom: 2px solid #fff;
+    border-right: 2px solid #fff;
+}
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="container">
+        <div class="header">
+            <div class="admin-info">
+                <span class="admin-name">Trần Bách</span>
+                <span class="v-tick" title="Verified Account">✓</span>
+            </div>
+            <div style="font-size: 10px; color: #555;">[ SESSION: ACTIVE ]</div>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 20px;">
+            <h2 style="margin: 0; font-size: 1.2rem; letter-spacing: 2px;">SECURE INSTALLATION</h2>
+            <small style="color: #555;">Ver 4.0 - Cyber Edition</small>
+        </div>
+
+       <div class="video-wrapper">
+    <div class="video-container">
+        <video controls poster="thumbnail.jpg">
+            <source src="videohuongdah.mp4" type="video/mp4">
+            Trình duyệt không hỗ trợ xem video.
+        </video>
+    </div>
+    <div style="text-align: center; margin-top: 10px; color: #555; font-size: 11px;">
+        SCREEN RESOLUTION: 1080P | AUTO-SCALE: ENABLED
+    </div>
+</div>
+
+        <div class="steps-container">
+            <div class="phase-item">
+                <span class="phase-title">/ PHASE_01</span>
+                <span class="phase-desc">Download từ server chính chủ. Mật khẩu: <code>tranbach2026</code></span>
+            </div>
+            <div class="phase-item">
+                <span class="phase-title">/ PHASE_02</span>
+                <span class="phase-desc">Vô hiệu hóa <b>Firewall</b> để tool có thể Inject code vào Game.</span>
+            </div>
+            <div class="phase-item">
+                <span class="phase-title">/ PHASE_03</span>
+                <span class="phase-desc">Mở <b>Setup.exe</b> bằng quyền Admin để đăng ký Registry hệ thống.</span>
+            </div>
+            <div class="phase-item" style="border-bottom: none;">
+                <span class="phase-title">/ PHASE_04</span>
+                <span class="phase-desc">Nhập Key và khởi động module hack. Enjoy!</span>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; padding: 10px; border: 1px solid var(--neon-red); color: var(--neon-red); font-size: 0.8rem; text-align: center;">
+            [ CRITICAL ] KHÔNG CHIA SẺ KEY - SYSTEM SẼ TỰ ĐỊNH DANH HWID CỦA BẠN.
+        </div>
+
+        <div class="footer-status">
+            <span>Enc: AES-256</span>
+            <span>Auth: Trần Bách Commander</span>
+            <span>IP: 127.0.0.1</span>
+        </div>
+    </div>
+</div>
+
+</body>
+<div class="back-home-wrapper">
+    <a href="home.html" class="btn-home">
+        <span> quay lại
+    </a>
+</div>
+</html>
