@@ -656,7 +656,21 @@ function handleCard(idx, isSuccess) {
             card.status = "Thất bại";
         } else return;
     }
-
+// Ví dụ logic tại trang Admin khi bạn bấm "Duyệt thành công"
+function approveCard(amount) {
+    // 1. Lấy dữ liệu user hiện tại
+    let user = JSON.parse(localStorage.getItem("currentUser"));
+    
+    if(user) {
+        // 2. Cộng tiền vào số dư
+        user.balance = Number(user.balance) + Number(amount);
+        
+        // 3. Lưu ngược lại vào localStorage
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        
+        alert("Đã cộng " + amount + "đ vào tài khoản!");
+    }
+}
     // Lưu lại trạng thái thẻ (để trang napthe.html hiện "Thành công")
     localStorage.setItem("cardRequests", JSON.stringify(cards));
     renderAdminCards(); 

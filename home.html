@@ -11,6 +11,90 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
+    /* ===== FAKE NOTIFY PRO MAX ===== */
+.fake-notify-pro {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid #00f2ff;
+    color: #fff;
+    padding: 12px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 260px;
+    box-shadow: 0 0 20px #00f2ff;
+    transform: translateX(-120%);
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 999999;
+    backdrop-filter: blur(10px);
+}
+
+.fake-notify-pro.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.fake-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #00f2ff;
+}
+
+.fake-text {
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.fake-text b {
+    color: #00f2ff;
+}
+
+.fake-time {
+    font-size: 10px;
+    color: #aaa;
+}
+    /* ===== FAKE NOTIFY PURCHASE ===== */
+.fake-notify {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid #00f2ff;
+    color: #00f2ff;
+    padding: 12px 18px;
+    font-size: 13px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px #00f2ff;
+    font-family: 'Orbitron', sans-serif;
+    transform: translateX(-120%);
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 999999;
+}
+
+.fake-notify.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.fake-notify b {
+    color: #ff00c8;
+}
+    .product {
+    background: rgba(0, 0, 0, 0.6) !important;
+    border: 1px solid #00f3ff !important;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+    transition: 0.3s;
+}
+.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px #00f3ff;
+}
     /* Container chứa cả thanh tìm kiếm và các nút */
 .header-container {
     display: flex;
@@ -280,6 +364,7 @@ body{
 }
 
 /* ===== NAVBAR ===== */
+
 .navbar{
     background: rgba(0,0,0,0.85);
     backdrop-filter: blur(5px);
@@ -447,7 +532,7 @@ footer{
         <div class="system-status">SYSTEM READY... 100%</div>
     </div>
 </div>
-
+<div id="fakeChatBox"></div>
 <style>
 #cyber-intro-overlay {
     position: fixed;
@@ -500,7 +585,24 @@ footer{
     box-shadow: 0 0 15px #00f2ff;
     animation: scan 1.5s linear infinite;
 }
+#fakeChatBox {
+    position: fixed;
+    bottom: 90px;
+    right: 15px;
+    width: 220px;
+    font-size: 12px;
+    z-index: 9999;
+}
 
+.fake-chat-msg {
+    background: rgba(0,0,0,0.85);
+    border-left: 3px solid #00f2ff;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 6px;
+    color: #fff;
+    animation: fadeIn 0.5s;
+}
 /* Thanh loading cực xịn */
 .loading-bar-container {
     width: 300px;
@@ -591,13 +693,56 @@ footer{
 <div class="lantern-box lantern-right">🏮</div>
 
 <!-- NAVBAR -->
- 
+ <div id="onlineBox" style="
+position:fixed;
+top:80px;
+right:15px;
+background:rgba(0,0,0,0.8);
+border:1px solid #00f2ff;
+padding:8px 12px;
+color:#00f2ff;
+font-size:12px;
+border-radius:8px;
+box-shadow:0 0 10px #00f2ff;
+z-index:9999;
+">
+👁️ <span id="onlineCount">0</span> người đang online
+</div>
 <nav class="navbar navbar-expand-lg navbar-dark bg-black sticky-top">
 <div class="container">
 <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
     <img src="z7575849532825_4e2b69bb6af09023669f3145af18ada1.jpg" alt="logo" width="35" height="35" class="brand-logo">
     TRẦN BÁCH STORE 
 </a>
+<div class="balance-display" style="background: rgba(0, 243, 255, 0.1); border: 1px solid #00f3ff; padding: 5px 12px; border-radius: 5px; display: flex; align-items: center; gap: 8px; box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);">
+    <img src="https://cdn-icons-png.flaticon.com/512/2529/2529396.png" width="18" style="filter: hue-rotate(180deg);">
+    <span id="user-balance-home" style="color: #00f3ff; font-weight: bold; font-family: 'Orbitron', sans-serif;">0đ</span>
+</div>
+<div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background: #1a1a1a; color: white; border: 1px solid #00f3ff;">
+            <div class="modal-header" style="border-bottom: 1px solid #333;">
+                <h5 class="modal-title">🛒 Giỏ hàng của bạn</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="cart-items-list">
+                    <p class="text-center">Giỏ hàng trống</p>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <span>Tổng cộng:</span>
+                    <span id="cart-total" style="color: #00f3ff; font-weight: bold;">0đ</span>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: 1px solid #333;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <a href="checkout.html" class="btn btn-primary" style="background: #00f3ff; color: black; border: none;">Thanh toán</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="music-container">
     <button id="music-btn" class="music-btn playing">
         <span class="music-icon">🎵</span>
@@ -610,12 +755,7 @@ footer{
         <source src="nhactranghome.mp3" type="audio/mpeg">
     </audio>
 </div>
-<a href="napthe.html" class="cyber-btn-nav">
-    <div class="cyber-btn__inner">
-        <div class="cyber-btn__glitch"></div>
-        <i class="fa-solid fa-bolt"></i> NẠP THẺ
-    </div>
-</a>
+
 
 <style>
 .cyber-btn-nav {
@@ -671,7 +811,12 @@ transition:0.3s;
     <i class="bi bi-search"></i>
     <input class="form-control" id="searchInput" type="text" placeholder="Tìm sản phẩm...">
 </div>
-
+<a href="napthe.html" class="cyber-btn-nav">
+    <div class="cyber-btn__inner">
+        <div class="cyber-btn__glitch"></div>
+        <i class="fa-solid fa-bolt"></i> NẠP THẺ
+    </div>
+</a>
 </div>
 
 </div>
@@ -694,7 +839,16 @@ transition:0.3s;
 <button class="btn btn-outline-danger" onclick="filterCategory('adr')">adr</button>
 <button class="btn btn-outline-danger" onclick="filterCategory('pc')">pc</button>
 </section>
-
+<div class="container mt-4">
+    <div style="background: rgba(0,0,0,0.7); border: 1px dashed #00f3ff; padding: 15px; border-radius: 10px;">
+        <h5 style="color: #00f3ff; text-transform: uppercase; font-size: 14px;"><i class="fas fa-signal"></i> Trạng thái hệ thống:</h5>
+        <div class="d-flex flex-wrap gap-3">
+            <span class="badge bg-success" style="box-shadow: 0 0 5px #198754;">● FLourite: Hoạt động</span>
+            <span class="badge bg-warning text-dark" style="box-shadow: 0 0 5px #ffc107;">● Migul: Bảo trì</span>
+            <span class="badge bg-danger" style="box-shadow: 0 0 5px #dc3545;">● Dracula: Detected</span>
+        </div>
+    </div>
+</div>
 <!-- SẢN PHẨM -->
 <section class="py-5" id="products">
 <div class="container">
@@ -720,9 +874,11 @@ width:100%;
 <h6>FLourite gốc 30 ngày</h6>
 <p class="text-danger fw-bold">350.000đ</p>
 <a href="payment.html" class="btn btn-dark">Mua hàng </a>
-<button onclick="buyWithBalance('FLourite gốc 30 ngày', 350000)" class="btn-cyber-wallet">
+<button onclick="buyWithBalance('FLourite gốc 30 ngày', 350000)" class="btn-cyber-wallet ">
     <i class="fa-solid fa-wallet"></i> Thẻ cào
+    
 </button>
+
 </div>
 </div>
 </div>
@@ -1138,45 +1294,81 @@ width:100%;
     }
 </style>
 
-<div class="container">
-    <div class="status-container">
-        <div class="status-header">
-            <h5><i class="fas fa-server"></i> HỆ THỐNG TRẠNG THÁI</h5>
-            <small style="color: #888;">Cập nhật: Vừa xong</small>
-        </div>
-        <div class="status-grid">
-            <div class="status-item">
-                <span class="tool-name">Dracula Engine</span>
-                <div class="led-box safe">
-                    <span>Undetected</span>
-                    <div class="led-light led-safe"></div>
-                </div>
-            </div>
-            <div class="status-item">
-                <span class="tool-name">Flu Adr</span>
-                <div class="led-box updating">
-                    <span>Updating</span>
-                    <div class="led-light led-updating"></div>
-                </div>
-            </div>
-            <div class="status-item">
-                <span class="tool-name">VIP Analyzer</span>
-                <div class="led-box safe">
-                    <span>Working</span>
-                    <div class="led-light led-safe"></div>
-                </div>
-            </div>
-            <div class="status-item">
-                <span class="tool-name">External Cheat</span>
-                <div class="led-box detected">
-                    <span>Detected</span>
-                    <div class="led-light led-detected"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <script>
+    const fakeChats = [
+    "shop ơi còn không?",
+    "mới mua xong ok nhé 🔥",
+    "dùng mượt vl",
+    "admin rep nhanh ghê",
+    "có acc nào rẻ hơn không",
+    "vừa mua xong ngon nha ae",
+    "web uy tín đấy"
+];
+
+function addFakeChat() {
+    const box = document.getElementById("fakeChatBox");
+    const msg = document.createElement("div");
+
+    msg.className = "fake-chat-msg";
+    msg.innerText = fakeChats[Math.floor(Math.random() * fakeChats.length)];
+
+    box.appendChild(msg);
+
+    setTimeout(() => {
+        msg.remove();
+    }, 6000);
+}
+
+setInterval(addFakeChat, 4000);
+    const fakeNames = [
+    "huyxx", "provip", "darkvn", "killer99", "bachvip",
+    "trumhack", "proplayer", "ghostvn", "nguyenpro"
+];
+
+const fakeProductsPro = [
+    "FLourite gốc 30 ngày",
+    "Migul ios tháng",
+    "dracula pro 30 ngày",
+    "aimbot prx v2 30 ngày",
+    "sonic mod 30 ngày"
+];
+
+const fakeAvatars = [
+    "https://i.pravatar.cc/40?img=1",
+    "https://i.pravatar.cc/40?img=2",
+    "https://i.pravatar.cc/40?img=3",
+    "https://i.pravatar.cc/40?img=4",
+    "https://i.pravatar.cc/40?img=5"
+];
+
+function showFakePro() {
+    const box = document.getElementById("fakeNotifyPro");
+    const msg = document.getElementById("fakeMsg");
+    const avatar = document.getElementById("fakeAvatar");
+
+    const name = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+    const product = fakeProductsPro[Math.floor(Math.random() * fakeProductsPro.length)];
+    const ava = fakeAvatars[Math.floor(Math.random() * fakeAvatars.length)];
+
+    avatar.src = ava;
+    msg.innerHTML = `<b>${name}</b> vừa mua <br>${product}`;
+
+    box.classList.add("show");
+
+    // âm thanh
+    const sound = document.getElementById("tingSound");
+sound.currentTime = 0;
+sound.play().catch(()=>{});
+    setTimeout(() => {
+        box.classList.remove("show");
+    }, 4500);
+}
+
+// random thời gian xuất hiện
+setInterval(() => {
+    showFakePro();
+}, Math.random() * 8000 + 4000);
+    
     function buyWithBalance(productName, price) {
     // 1. Lấy dữ liệu người dùng
     let currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -2153,6 +2345,81 @@ document.querySelectorAll('.product').forEach(product => {
 
 </script>
 <script>
+    // 1. Cập nhật số dư từ LocalStorage (giả sử bạn đã lưu khi Admin cộng tiền)
+function updateBalance() {
+    const balance = localStorage.getItem("userBalance") || "0";
+    document.getElementById("user-balance").innerText = parseInt(balance).toLocaleString();
+}
+
+// 2. Hàm thêm sản phẩm vào giỏ
+let cart = JSON.parse(localStorage.getItem("myCart")) || [];
+
+function addToCart(name, price) {
+    cart.push({ name: name, price: price });
+    localStorage.setItem("myCart", JSON.stringify(cart));
+    updateCartCount();
+    alert("Đã thêm " + name + " vào giỏ hàng!");
+}
+
+function updateCartCount() {
+    document.getElementById("cart-count").innerText = cart.length;
+}
+
+function showCart() {
+    const list = document.getElementById("cart-items-list");
+    const totalElem = document.getElementById("cart-total");
+    let total = 0;
+    
+    if (cart.length === 0) {
+        list.innerHTML = "<p class='text-center'>Giỏ hàng trống</p>";
+    } else {
+        list.innerHTML = cart.map((item, index) => {
+            let priceVal = parseInt(item.price.replace(/\D/g, ''));
+            total += priceVal;
+            return `<div class="d-flex justify-content-between mb-2">
+                        <span>${item.name}</span>
+                        <span style="color: #00f3ff;">${item.price}</span>
+                    </div>`;
+        }).join('');
+    }
+    totalElem.innerText = total.toLocaleString() + "đ";
+    var myModal = new bootstrap.Modal(document.getElementById('cartModal'));
+    myModal.show();
+}
+let online = Math.floor(Math.random() * 50) + 80;
+
+function updateOnline() {
+    let change = Math.floor(Math.random() * 5);
+
+    if (Math.random() > 0.5) {
+        online += change;
+    } else {
+        online -= change;
+    }
+
+    if (online < 50) online = 50;
+
+    document.getElementById("onlineCount").innerText = online;
+}
+
+setInterval(updateOnline, 3000);
+updateOnline();
+// Chạy khi trang web load xong
+document.addEventListener("DOMContentLoaded", function() {
+    updateBalance();
+    updateCartCount();
+    
+    // Gán sự kiện cho các nút "Mua hàng" hiện tại
+    document.querySelectorAll('.product .btn').forEach(btn => {
+        btn.onclick = function(e) {
+            e.preventDefault();
+            const productBox = this.closest('.product');
+            const name = productBox.querySelector('h6').innerText;
+            const price = productBox.querySelector('p').innerText;
+            addToCart(name, price);
+        };
+    });
+});
 document.addEventListener("DOMContentLoaded", function() {
     // Kiểm tra xem có phải vừa đăng nhập thành công từ index.html không
     if (localStorage.getItem("showLoginToast") === "true") {
@@ -2174,6 +2441,80 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 </script>
+
+<div id="cart-floating-btn" onclick="showCart()" style="position: fixed; bottom: 20px; right: 20px; z-index: 999; cursor: pointer; background: #00f3ff; padding: 15px; border-radius: 50%; box-shadow: 0 0 15px #00f3ff;">
+    <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" width="25">
+    <span id="cart-count" style="position: absolute; top: 0; right: 0; background: red; color: white; border-radius: 50%; padding: 2px 7px; font-size: 12px;">0</span>
+</div>
+<script>
+function syncBalance() {
+    // Lấy dữ liệu currentUser từ localStorage (giống hệt bên napthe.html)
+    const userData = JSON.parse(localStorage.getItem("currentUser"));
+    
+    const balanceElement = document.getElementById("user-balance-home");
+    
+    if (userData && userData.balance !== undefined) {
+        // Định dạng số tiền (ví dụ: 100.000đ)
+        balanceElement.innerText = Number(userData.balance).toLocaleString() + "đ";
+    } else {
+        balanceElement.innerText = "0đ";
+    }
+}
+
+// Chạy khi trang vừa load
+document.addEventListener("DOMContentLoaded", syncBalance);
+
+// Tự động cập nhật nếu người dùng mở nhiều tab và nạp tiền ở tab khác
+window.addEventListener('storage', function(e) {
+    if (e.key === 'currentUser') {
+        syncBalance();
+    }
+});
+</script>
+<script>
+   
+    function showFakeNotify() {
+        const name = userNames[Math.floor(Math.random() * userNames.length)];
+        const money = cardValues[Math.floor(Math.random() * cardValues.length)];
+        
+        const toast = document.createElement("div");
+        toast.style = `
+            position: fixed; bottom: 100px; left: 20px; 
+            background: rgba(0,0,0,0.9); border-left: 4px solid #00f3ff;
+            color: white; padding: 12px 20px; border-radius: 5px;
+            z-index: 10000; font-size: 13px; font-family: sans-serif;
+            box-shadow: 0 0 15px rgba(0,243,255,0.3);
+            animation: slideIn 0.5s ease-out;
+        `;
+        toast.innerHTML = `🔥 <b>${name}</b> vừa nạp thành công <b>${money}</b>`;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.animation = "slideOut 0.5s ease-in";
+            setTimeout(() => toast.remove(), 500);
+        }, 4000);
+    }
+
+    // Cứ 15 đến 30 giây hiện 1 lần
+    setInterval(showFakeNotify, Math.floor(Math.random() * 15000) + 15000);
+</script>
+
+<style>
+@keyframes slideIn { from { transform: translateX(-120%); } to { transform: translateX(0); } }
+@keyframes slideOut { from { transform: translateX(0); } to { transform: translateX(-120%); } }
+</style>
+<div id="fakeNotify" class="fake-notify"></div>
+<div id="fakeNotifyPro" class="fake-notify-pro">
+    <img id="fakeAvatar" class="fake-avatar" src="">
+    <div class="fake-text">
+        <div id="fakeMsg"></div>
+        <div class="fake-time">Vài giây trước</div>
+    </div>
+</div>
+
+<audio id="tingSound">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9b1c0f.mp3?filename=correct-2-46134.mp3">
+</audio>
 </body>
 </html>
 

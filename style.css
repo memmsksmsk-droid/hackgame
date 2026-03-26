@@ -854,3 +854,57 @@ box-shadow:
     color: #fff !important;
     box-shadow: 0 0 20px #ff00ff !important;
 }
+/* ===== MOBILE VIP PRO ===== */
+@media (max-width: 768px) {
+
+    .hero {
+        height: 50vh;
+    }
+
+    .hero h1 {
+        font-size: 28px !important;
+    }
+
+    .hero p {
+        font-size: 14px;
+    }
+
+    /* Card sản phẩm */
+    .card {
+        margin-bottom: 10px;
+    }
+
+    .product-img {
+        height: 160px !important;
+    }
+
+    /* Nút bấm to hơn dễ bấm */
+    .btn, .btn-cyber-wallet {
+        font-size: 12px !important;
+        padding: 8px !important;
+    }
+
+    /* Thanh search đẹp hơn */
+    #searchInput {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    /* Floating contact nhỏ lại */
+    .contact-btn {
+        width: 50px;
+        height: 50px;
+    }
+
+    .contact-btn img {
+        width: 25px;
+        height: 25px;
+    }
+
+    /* Notify mobile */
+    .fake-notify {
+        left: 10px;
+        right: 10px;
+        font-size: 12px;
+    }
+}
