@@ -690,252 +690,57 @@ z-index:9999;
 ">
 👁️ <span id="onlineCount">0</span> người đang online
 </div>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<nav class="navbar navbar-expand-lg navbar-dark cyber-navbar sticky-top">
+<div class="container">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-black sticky-top cyber-nav">
-    <div class="container-fluid px-4">
-        <div class="d-flex align-items-center gap-3">
-            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
-                <img src="z7575849532825_4e2b69bb6af09023669f3145af18ada1.jpg" alt="logo" width="35" height="35" class="brand-logo">
-                <span class="d-none d-sm-inline brand-text">TRẦN BÁCH STORE</span>
-            </a>
-            
-            <div class="balance-badge">
-                <i class="fa-solid fa-wallet"></i>
-                <span id="user-balance-home">0đ</span>
-            </div>
-        </div>
+<!-- LOGO -->
+<a class="navbar-brand d-flex align-items-center gap-2" href="#">
+    <img src="z7575849532825_4e2b69bb6af09023669f3145af18ada1.jpg" width="35" class="logo">
+    <span class="brand-text">TRẦN BÁCH STORE</span>
+</a>
 
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#cyberNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<!-- TOGGLE MOBILE -->
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navFix">
+    <span class="navbar-toggler-icon"></span>
+</button>
 
-        <div class="collapse navbar-collapse" id="cyberNavbar">
-            <div class="mx-auto my-2 my-lg-0">
-                <div class="search-container">
-                    <i class="bi bi-search"></i>
-                    <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm...">
-                </div>
-            </div>
+<div class="collapse navbar-collapse" id="navFix">
 
-            <div class="d-flex align-items-center gap-3 flex-wrap justify-content-center">
-                <div class="nav-links-group">
-                    <a href="home.html" title="Trang chủ"><i class="bi bi-house-door"></i></a>
-                    <a href="https://t.me/skibidibach" target="_blank" title="Telegram Support"><i class="bi bi-telegram"></i></a>
-                </div>
+<!-- SEARCH (GIỮ NGUYÊN ID) -->
+<div class="search-box mx-auto">
+    <i class="bi bi-search"></i>
+    <input id="searchInput" type="text" placeholder="Tìm sản phẩm...">
+</div>
 
-                <div class="utils-group">
-             
-            <button id="themeToggle" class="util-btn" title="Đổi giao diện">
-                        <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
-                    </button>
-                </div>
+<!-- RIGHT -->
+<div class="nav-actions ms-auto">
 
-                <a href="napthe.html" class="cyber-btn-mini">
-                    <span><i class="fa-solid fa-bolt-lightning"></i> NẠP THẺ</span>
-                </a>
-
-                <a href="bach.html" class="admin-btn">
-                    <i class="fa-solid fa-crown"></i> ADMIN
-                </a>
-            </div>
-        </div>
+    <!-- TIỀN (GIỮ ID) -->
+    <div class="balance-box">
+        💰 <span id="user-balance-home">0đ</span>
     </div>
+
+    <!-- NHẠC (GIỮ ID) -->
+    <button id="music-btn" class="icon-btn">🎵</button>
+
+    <!-- LINK -->
+    <a href="home.html" class="icon-btn">🏠</a>
+    <a href="https://t.me/skibidibach" class="icon-btn">📩</a>
+
+    <!-- NẠP THẺ (CÓ CHỮ) -->
+    <a href="napthe.html" class="napthe-btn">
+        ⚡ NẠP THẺ
+    </a>
+
+    <!-- ADMIN -->
+    <a href="bach.html" class="admin-btn">👑</a>
+
+</div>
+
+</div>
+</div>
 </nav>
 
-<style>
-:root {
-    --cyan: #00f3ff;
-    --magenta: #ff00c8;
-}
-
-/* Kiểu dáng Navbar mặc định */
-.cyber-nav {
-    border-bottom: 1px solid rgba(0, 243, 255, 0.2);
-    backdrop-filter: blur(10px);
-    padding: 10px 0;
-    font-family: 'Orbitron', sans-serif;
-}
-
-.brand-text {
-    letter-spacing: 2px;
-    font-size: 14px;
-    text-shadow: 0 0 10px var(--cyan);
-}
-.brand-logo {
-    filter: drop-shadow(0 0 5px var(--cyan));
-    border-radius: 50%;
-}
-
-/* Số dư tài khoản */
-.balance-badge {
-    background: rgba(0, 242, 255, 0.1);
-    border: 1px solid var(--cyan);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 13px;
-    color: var(--cyan);
-    box-shadow: inset 0 0 10px rgba(0, 242, 255, 0.1);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* Hộp tìm kiếm */
-.search-container {
-    position: relative;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(0, 243, 255, 0.2);
-    border-radius: 4px;
-    padding: 5px 15px;
-    display: flex;
-    align-items: center;
-    transition: 0.3s;
-}
-.search-container:focus-within {
-    border-color: var(--cyan);
-    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
-}
-.search-container i { color: var(--cyan); margin-right: 8px; }
-.search-container input {
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 14px;
-    outline: none;
-    width: 200px;
-}
-
-/* Các nhóm hành động */
-.nav-links-group a, .util-btn {
-    color: white;
-    font-size: 18px;
-    margin: 0 8px;
-    transition: 0.3s;
-    background: transparent;
-    border: none;
-    text-decoration: none;
-}
-.nav-links-group a:hover, .util-btn:hover {
-    color: var(--cyan);
-    text-shadow: 0 0 10px var(--cyan);
-}
-
-/* Nút Nạp Thẻ mini */
-.cyber-btn-mini {
-    text-decoration: none;
-    background: var(--cyan);
-    color: black !important;
-    padding: 5px 15px;
-    border-radius: 4px;
-    font-weight: 800;
-    font-size: 12px;
-    text-transform: uppercase;
-    transition: 0.3s;
-    box-shadow: 0 0 10px var(--cyan);
-}
-.cyber-btn-mini:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--cyan); }
-
-/* Nút Admin */
-.admin-btn {
-    text-decoration: none;
-    background: linear-gradient(45deg, #ff0055, #ff9900);
-    color: white !important;
-    padding: 5px 15px;
-    border-radius: 4px;
-    font-weight: bold;
-    font-size: 12px;
-    box-shadow: 0 0 15px rgba(255, 0, 100, 0.5);
-    transition: 0.3s;
-}
-.admin-btn:hover { box-shadow: 0 0 25px rgba(255, 0, 100, 0.8); transform: translateY(-2px); }
-
-/* Animation đĩa nhạc quay */
-.util-btn.playing i {
-    animation: rotateMusic 3s linear infinite;
-    color: var(--cyan);
-}
-@keyframes rotateMusic {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* ------------------------------------------------ */
-/* CSS THIẾT LẬP KHI CHUYỂN QUA CHẾ ĐỘ SÁNG (LIGHT MODE) */
-/* ------------------------------------------------ */
-body.light-mode {
-    background-color: #f4f7f6 !important;
-    background-image: 
-        linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px) !important;
-    color: #1a1a1a !important;
-}
-
-body.light-mode .cyber-nav {
-    background: rgba(255, 255, 255, 0.9);
-    border-bottom: 1px solid #ddd;
-}
-
-body.light-mode .search-container {
-    background: #eee;
-    border-color: #ccc;
-}
-body.light-mode .search-container input { color: #000; }
-
-body.light-mode .nav-links-group a, 
-body.light-mode .util-btn { color: #333; }
-
-body.light-mode .brand-text { text-shadow: none; color: #000; }
-body.light-mode .balance-badge { color: #111; border-color: #aaa; background: #eee; }
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // 1. Xử lý chơi/tạm dừng Nhạc
-    const musicBtn = document.getElementById('music-btn');
-    const audio = document.getElementById('bg-music');
-
-    if (musicBtn && audio) {
-        musicBtn.addEventListener('click', () => {
-            if (audio.paused) {
-                audio.play();
-                musicBtn.classList.add('playing');
-            } else {
-                audio.pause();
-                musicBtn.classList.remove('playing');
-            }
-        });
-    }
-
-    // 2. Xử lý đổi giao diện Sáng / Tối (Dark / Light Mode)
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
-    const body = document.body;
-
-    // Kiểm tra bộ nhớ trình duyệt xem người dùng đã chọn mode nào trước đó chưa
-    if (localStorage.getItem('theme') === 'light') {
-        body.classList.add('light-mode');
-        themeIcon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
-    }
-
-    if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('light-mode');
-            
-            if (body.classList.contains('light-mode')) {
-                // Đổi sang icon mặt trời khi bật chế độ sáng
-                themeIcon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
-                localStorage.setItem('theme', 'light');
-            } else {
-                // Đổi về icon mặt trăng khi về chế độ tối
-                themeIcon.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
-                localStorage.setItem('theme', 'dark');
-            }
-        });
-    }
-});
-</script>
 
 <!-- HERO -->
 <section class="hero">
@@ -1296,6 +1101,296 @@ width:100%;
 
 <!-- JS -->
 <style>
+    /* NAVBAR FIX */
+.cyber-navbar{
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #00f2ff33;
+}
+
+/* LOGO */
+.logo{
+    border-radius:50%;
+    border:2px solid #00f2ff;
+    box-shadow:0 0 10px #00f2ff;
+}
+
+.brand-text{
+    color:#00f2ff;
+    font-weight:bold;
+}
+
+/* SEARCH */
+.search-box{
+    position:relative;
+    width:280px;
+}
+
+.search-box input{
+    width:100%;
+    padding:7px 35px;
+    border-radius:20px;
+    border:1px solid #00f2ff55;
+    background:#000;
+    color:#fff;
+}
+
+.search-box i{
+    position:absolute;
+    left:10px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#00f2ff;
+}
+
+/* RIGHT */
+.nav-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+/* ICON */
+.icon-btn{
+    padding:6px 10px;
+    border-radius:8px;
+    border:1px solid transparent;
+    color:#ccc;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.icon-btn:hover{
+    color:#00f2ff;
+    border:1px solid #00f2ff;
+    box-shadow:0 0 10px #00f2ff;
+}
+
+/* BALANCE */
+.balance-box{
+    border:1px solid #00f2ff;
+    padding:5px 10px;
+    border-radius:20px;
+    color:#00f2ff;
+    font-size:12px;
+}
+
+/* NẠP THẺ */
+.napthe-btn{
+    background:linear-gradient(45deg,#00f2ff,#00c3ff);
+    color:#000;
+    padding:6px 12px;
+    border-radius:8px;
+    font-weight:bold;
+    text-decoration:none;
+    box-shadow:0 0 10px #00f2ff;
+}
+
+/* ADMIN */
+.admin-btn{
+    background:linear-gradient(45deg,#ff004c,#ff7b00);
+    color:#fff;
+    padding:6px 10px;
+    border-radius:8px;
+    text-decoration:none;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+    .search-box{
+        width:100%;
+        margin:10px 0;
+    }
+
+    .brand-text{
+        display:none;
+    }
+
+    .balance-box{
+        display:none;
+    }
+
+    .nav-actions{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+}
+    .cyber-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(15px);
+
+  border-bottom: 1px solid rgba(0,242,255,0.2);
+  transition: 0.4s;
+}
+
+/* AUTO HIDE */
+.cyber-navbar.hide {
+  transform: translateY(-100%);
+}
+
+/* LEFT */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #00f2ff;
+  box-shadow: 0 0 10px #00f2ff;
+}
+
+.brand {
+  color: #00f2ff;
+  font-weight: bold;
+}
+
+/* MONEY */
+.balance-pill {
+  border: 1px solid #00f2ff;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: #00f2ff;
+  box-shadow: 0 0 8px #00f2ff55;
+}
+
+/* SEARCH */
+.nav-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.search-box {
+  position: relative;
+  width: 320px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 8px 35px;
+  border-radius: 20px;
+  border: 1px solid #00f2ff33;
+  background: #000;
+  color: white;
+  transition: 0.3s;
+}
+
+.search-box input:focus {
+  border-color: #00f2ff;
+  box-shadow: 0 0 15px #00f2ff;
+}
+
+/* ánh sáng chạy */
+.search-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(90deg, transparent, #00f2ff55, transparent);
+  opacity: 0;
+}
+
+.search-box:hover .search-glow {
+  animation: glowRun 2s linear infinite;
+  opacity: 1;
+}
+
+@keyframes glowRun {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+/* RIGHT */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-btn {
+  color: #aaa;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon-btn:hover {
+  color: #00f2ff;
+  transform: scale(1.2);
+  text-shadow: 0 0 10px #00f2ff;
+}
+
+/* BUTTON */
+.neon-btn {
+  background: linear-gradient(45deg, #00f2ff, #00c3ff);
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: black;
+  box-shadow: 0 0 10px #00f2ff;
+}
+
+/* MENU */
+.menu-toggle {
+  display: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* MOBILE MENU */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 220px;
+  height: 100%;
+  background: #000;
+  padding: 20px;
+  transition: 0.4s;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.mobile-menu a {
+  color: #00f2ff;
+  text-decoration: none;
+}
+
+/* ACTIVE MENU */
+.mobile-menu.active {
+  right: 0;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+  .nav-center {
+    display: none;
+  }
+
+  .brand,
+  .balance-pill {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+}
     .btn-cyber-wallet {
     background: #000;
     color: #00f5ff;
@@ -1407,7 +1502,26 @@ width:100%;
         100% { opacity: 1; }
     }
 </style>
+<script>
+let lastScroll = 0;
+const nav = document.getElementById("cyberNav");
 
+window.addEventListener("scroll", () => {
+  let current = window.pageYOffset;
+
+  if(current > lastScroll){
+    nav.classList.add("hide");
+  } else {
+    nav.classList.remove("hide");
+  }
+
+  lastScroll = current;
+});
+
+function toggleMenu(){
+  document.getElementById("mobileMenu").classList.toggle("active");
+}
+</script>
 <script>
     const fakeChats = [
     "shop ơi còn không?",
