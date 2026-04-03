@@ -516,24 +516,6 @@ footer{
     z-index: 9999;
 }
 .popup-overlay.show { display: block; }
-</style>
-</head>
-<body>
-    <div id="cyber-intro-overlay">
-    <div class="cyber-intro-content">
-        <div class="access-granted">
-            <span class="glitch-text" data-text="ACCESS GRANTED">ACCESS GRANTED</span>
-        </div>
-        <div class="welcome-msg">CHÀO MỪNG QUÝ KHÁCH ĐÃ TRỞ LẠI</div>
-        <div class="scanner-line"></div>
-        <div class="loading-bar-container">
-            <div class="loading-bar-fill"></div>
-        </div>
-        <div class="system-status">SYSTEM READY... 100%</div>
-    </div>
-</div>
-<div id="fakeChatBox"></div>
-<style>
 #cyber-intro-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -708,120 +690,252 @@ z-index:9999;
 ">
 👁️ <span id="onlineCount">0</span> người đang online
 </div>
-<nav class="navbar navbar-expand-lg navbar-dark bg-black sticky-top">
-<div class="container">
-<a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
-    <img src="z7575849532825_4e2b69bb6af09023669f3145af18ada1.jpg" alt="logo" width="35" height="35" class="brand-logo">
-    TRẦN BÁCH STORE 
-</a>
-<div class="balance-display" style="background: rgba(0, 243, 255, 0.1); border: 1px solid #00f3ff; padding: 5px 12px; border-radius: 5px; display: flex; align-items: center; gap: 8px; box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);">
-    <img src="https://cdn-icons-png.flaticon.com/512/2529/2529396.png" width="18" style="filter: hue-rotate(180deg);">
-    <span id="user-balance-home" style="color: #00f3ff; font-weight: bold; font-family: 'Orbitron', sans-serif;">0đ</span>
-</div>
-<div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="background: #1a1a1a; color: white; border: 1px solid #00f3ff;">
-            <div class="modal-header" style="border-bottom: 1px solid #333;">
-                <h5 class="modal-title">🛒 Giỏ hàng của bạn</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-black sticky-top cyber-nav">
+    <div class="container-fluid px-4">
+        <div class="d-flex align-items-center gap-3">
+            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
+                <img src="z7575849532825_4e2b69bb6af09023669f3145af18ada1.jpg" alt="logo" width="35" height="35" class="brand-logo">
+                <span class="d-none d-sm-inline brand-text">TRẦN BÁCH STORE</span>
+            </a>
+            
+            <div class="balance-badge">
+                <i class="fa-solid fa-wallet"></i>
+                <span id="user-balance-home">0đ</span>
             </div>
-            <div class="modal-body">
-                <div id="cart-items-list">
-                    <p class="text-center">Giỏ hàng trống</p>
-                </div>
-                <hr>
-                <div class="d-flex justify-content-between">
-                    <span>Tổng cộng:</span>
-                    <span id="cart-total" style="color: #00f3ff; font-weight: bold;">0đ</span>
+        </div>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#cyberNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="cyberNavbar">
+            <div class="mx-auto my-2 my-lg-0">
+                <div class="search-container">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm...">
                 </div>
             </div>
-            <div class="modal-footer" style="border-top: 1px solid #333;">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <a href="checkout.html" class="btn btn-primary" style="background: #00f3ff; color: black; border: none;">Thanh toán</a>
+
+            <div class="d-flex align-items-center gap-3 flex-wrap justify-content-center">
+                <div class="nav-links-group">
+                    <a href="home.html" title="Trang chủ"><i class="bi bi-house-door"></i></a>
+                    <a href="https://t.me/skibidibach" target="_blank" title="Telegram Support"><i class="bi bi-telegram"></i></a>
+                </div>
+
+                <div class="utils-group">
+             
+            <button id="themeToggle" class="util-btn" title="Đổi giao diện">
+                        <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+                    </button>
+                </div>
+
+                <a href="napthe.html" class="cyber-btn-mini">
+                    <span><i class="fa-solid fa-bolt-lightning"></i> NẠP THẺ</span>
+                </a>
+
+                <a href="bach.html" class="admin-btn">
+                    <i class="fa-solid fa-crown"></i> ADMIN
+                </a>
             </div>
         </div>
     </div>
-</div>
-
-<div class="music-container">
-    <button id="music-btn" class="music-btn playing">
-        <span class="music-icon">🎵</span>
-        <span class="music-text">Nhạc chill </span>
-        <div class="wave-bars">
-            <span></span><span></span><span></span>
-        </div>
-    </button>
-    <audio id="bg-music" loop>
-        <source src="nhactranghome.mp3" type="audio/mpeg">
-    </audio>
-</div>
-
+</nav>
 
 <style>
-.cyber-btn-nav {
-    text-decoration: none;
-    position: relative;
-    padding: 1px;
-    background: linear-gradient(90deg, #00f5ff, #ff00ff);
-    border-radius: 4px;
-    display: inline-block;
+:root {
+    --cyan: #00f3ff;
+    --magenta: #ff00c8;
 }
-.cyber-btn__inner {
-    background: #000;
-    color: #fff;
-    padding: 6px 12px;
-    font-size: 12px;
-    font-weight: 900;
-    text-transform: uppercase;
+
+/* Kiểu dáng Navbar mặc định */
+.cyber-nav {
+    border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 10px 0;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.brand-text {
+    letter-spacing: 2px;
+    font-size: 14px;
+    text-shadow: 0 0 10px var(--cyan);
+}
+.brand-logo {
+    filter: drop-shadow(0 0 5px var(--cyan));
+    border-radius: 50%;
+}
+
+/* Số dư tài khoản */
+.balance-badge {
+    background: rgba(0, 242, 255, 0.1);
+    border: 1px solid var(--cyan);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: var(--cyan);
+    box-shadow: inset 0 0 10px rgba(0, 242, 255, 0.1);
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
 }
-.cyber-btn-nav:hover {
-    box-shadow: 0 0 15px #00f5ff;
-    transform: translateY(-2px);
+
+/* Hộp tìm kiếm */
+.search-container {
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    border-radius: 4px;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
 }
+.search-container:focus-within {
+    border-color: var(--cyan);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+}
+.search-container i { color: var(--cyan); margin-right: 8px; }
+.search-container input {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 14px;
+    outline: none;
+    width: 200px;
+}
+
+/* Các nhóm hành động */
+.nav-links-group a, .util-btn {
+    color: white;
+    font-size: 18px;
+    margin: 0 8px;
+    transition: 0.3s;
+    background: transparent;
+    border: none;
+    text-decoration: none;
+}
+.nav-links-group a:hover, .util-btn:hover {
+    color: var(--cyan);
+    text-shadow: 0 0 10px var(--cyan);
+}
+
+/* Nút Nạp Thẻ mini */
+.cyber-btn-mini {
+    text-decoration: none;
+    background: var(--cyan);
+    color: black !important;
+    padding: 5px 15px;
+    border-radius: 4px;
+    font-weight: 800;
+    font-size: 12px;
+    text-transform: uppercase;
+    transition: 0.3s;
+    box-shadow: 0 0 10px var(--cyan);
+}
+.cyber-btn-mini:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--cyan); }
+
+/* Nút Admin */
+.admin-btn {
+    text-decoration: none;
+    background: linear-gradient(45deg, #ff0055, #ff9900);
+    color: white !important;
+    padding: 5px 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 12px;
+    box-shadow: 0 0 15px rgba(255, 0, 100, 0.5);
+    transition: 0.3s;
+}
+.admin-btn:hover { box-shadow: 0 0 25px rgba(255, 0, 100, 0.8); transform: translateY(-2px); }
+
+/* Animation đĩa nhạc quay */
+.util-btn.playing i {
+    animation: rotateMusic 3s linear infinite;
+    color: var(--cyan);
+}
+@keyframes rotateMusic {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ------------------------------------------------ */
+/* CSS THIẾT LẬP KHI CHUYỂN QUA CHẾ ĐỘ SÁNG (LIGHT MODE) */
+/* ------------------------------------------------ */
+body.light-mode {
+    background-color: #f4f7f6 !important;
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px) !important;
+    color: #1a1a1a !important;
+}
+
+body.light-mode .cyber-nav {
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid #ddd;
+}
+
+body.light-mode .search-container {
+    background: #eee;
+    border-color: #ccc;
+}
+body.light-mode .search-container input { color: #000; }
+
+body.light-mode .nav-links-group a, 
+body.light-mode .util-btn { color: #333; }
+
+body.light-mode .brand-text { text-shadow: none; color: #000; }
+body.light-mode .balance-badge { color: #111; border-color: #aaa; background: #eee; }
 </style>
-<a href="bach.html" style="
-margin-left:15px;
-padding:8px 18px;
-border-radius:30px;
-background:linear-gradient(45deg,#ff0055,#ff9900);
-color:white;
-font-weight:bold;
-text-decoration:none;
-box-shadow:0 0 15px rgba(255,0,100,0.7);
-transition:0.3s;
-">
 
-💎 Giúp Đỡ Admin
-</a>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Xử lý chơi/tạm dừng Nhạc
+    const musicBtn = document.getElementById('music-btn');
+    const audio = document.getElementById('bg-music');
 
-<div class="ms-auto d-flex align-items-center">
- <div class="theme-toggle me-3">
-    <i id="themeIcon" class="bi bi-moon-fill"></i>
-</div>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">   
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com">
+    if (musicBtn && audio) {
+        musicBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                musicBtn.classList.add('playing');
+            } else {
+                audio.pause();
+                musicBtn.classList.remove('playing');
+            }
+        });
+    }
 
-<a href="home.html" class="btn btn-outline-light btn-sm me-2">Trang chủ</a>
-<a href="https://t.me/skibidibach" class="btn btn-outline-light btn-sm me-3">tele</a>
+    // 2. Xử lý đổi giao diện Sáng / Tối (Dark / Light Mode)
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const body = document.body;
 
-<div class="search-wrapper me-3">
-    <i class="bi bi-search"></i>
-    <input class="form-control" id="searchInput" type="text" placeholder="Tìm sản phẩm...">
-</div>
-<a href="napthe.html" class="cyber-btn-nav">
-    <div class="cyber-btn__inner">
-        <div class="cyber-btn__glitch"></div>
-        <i class="fa-solid fa-bolt"></i> NẠP THẺ
-    </div>
-</a>
-</div>
+    // Kiểm tra bộ nhớ trình duyệt xem người dùng đã chọn mode nào trước đó chưa
+    if (localStorage.getItem('theme') === 'light') {
+        body.classList.add('light-mode');
+        themeIcon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
+    }
 
-</div>
-<canvas id="rainCanvas"></canvas>
-</nav>
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                // Đổi sang icon mặt trời khi bật chế độ sáng
+                themeIcon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
+                localStorage.setItem('theme', 'light');
+            } else {
+                // Đổi về icon mặt trăng khi về chế độ tối
+                themeIcon.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    }
+});
+</script>
 
 <!-- HERO -->
 <section class="hero">
